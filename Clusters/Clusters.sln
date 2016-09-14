@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clusters", "Clusters\Cluste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterDomain", "ClusterDomain\ClusterDomain.csproj", "{D539023F-885E-4081-8766-07A3BB7E0C26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterDomainTest", "ClusterDomainTest\ClusterDomainTest.csproj", "{0E552DF6-1DA1-47CF-87D4-CA7AE770196C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D539023F-885E-4081-8766-07A3BB7E0C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D539023F-885E-4081-8766-07A3BB7E0C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D539023F-885E-4081-8766-07A3BB7E0C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E552DF6-1DA1-47CF-87D4-CA7AE770196C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E552DF6-1DA1-47CF-87D4-CA7AE770196C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E552DF6-1DA1-47CF-87D4-CA7AE770196C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E552DF6-1DA1-47CF-87D4-CA7AE770196C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
