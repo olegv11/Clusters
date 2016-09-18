@@ -80,7 +80,26 @@ namespace ClusterDomainTest
             Assert.True(clusters.Select(x => x.Points).Any(x => AreListsEquivalent(x, cluster2)));
 
             // И нет шума
-            Assert.True(noise.Empty);
+            Assert.Empty(noise.Points);
+        }
+
+        [Fact]
+        void TestDbscanClusterizerShouldProcessEmptyData()
+        {
+            // Arrange
+            var empty = new DataSet();
+
+            DbscanClasterizer clasterizer = new DbscanClasterizer(1, 1);
+
+            // Act
+            clasterizer.Clusterize(empty);
+
+            var clusters = clasterizer.GetClusters();
+            var noise = clasterizer.GetNoise();
+
+            // Assert
+            Assert.Empty(clusters);
+            Assert.Empty(noise.Points);
         }
 
 
