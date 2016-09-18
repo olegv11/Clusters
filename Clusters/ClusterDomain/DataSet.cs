@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClusterDomain
 {
@@ -12,11 +13,6 @@ namespace ClusterDomain
         public DataSet(IEnumerable<DataPoint> points)
         {
             Data = new HashSet<DataPoint>(points);
-        }
-
-        public DataSet(DataSet other)
-        {
-            Data = new HashSet<DataPoint>(other.Data);
         }
 
         public void AddPoint(DataPoint point)
@@ -35,5 +31,9 @@ namespace ClusterDomain
         }
 
         public HashSet<DataPoint> Data { get; }
+
+        public DateTime CreationTime { get; set; }
+
+        public string Name { get; set; }
     }
 }

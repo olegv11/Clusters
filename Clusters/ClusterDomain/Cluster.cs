@@ -6,25 +6,24 @@ namespace ClusterDomain
     {
         public Cluster()
         {
-            dataset = new DataSet();
+            Points = new HashSet<DataPoint>();
         }
 
-        public Cluster(DataSet points)
+        public Cluster(IEnumerable<DataPoint> points)
         {
-            dataset = new DataSet(points);
+            Points = new HashSet<DataPoint>(points);
         }
 
         public void AddPoint(DataPoint point)
         {
-            dataset.AddPoint(point);
+            Points.Add(point);
         }
 
         public int Count => Points.Count;
 
         public bool Empty => Count == 0;
 
-        public DataSet dataset;
+        public HashSet<DataPoint> Points { get; }
 
-        public HashSet<DataPoint> Points => dataset.Data;
     }
 }

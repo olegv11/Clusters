@@ -16,7 +16,7 @@ namespace ClusterDomain
         {
             clusters = new List<Cluster>();
             visited = new HashSet<DataPoint>();
-            noise = new DataSet();
+            noise = new HashSet<DataPoint>();
 
             foreach (var point in dataSet.Data)
             {
@@ -30,7 +30,7 @@ namespace ClusterDomain
                 var neighbours = RegionQuery(point, dataSet);
                 if (neighbours.Count < minPoints)
                 {
-                    noise.AddPoint(point);
+                    noise.Add(point);
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace ClusterDomain
 
         private List<Cluster> clusters;
         private HashSet<DataPoint> visited;
-        private DataSet noise;
+        private HashSet<DataPoint> noise;
         private double epsilon;
         private double minPoints;
     }
