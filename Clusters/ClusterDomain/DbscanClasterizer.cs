@@ -12,14 +12,13 @@ namespace ClusterDomain
             this.minPoints = minPoints;
         }
 
-        public void Clusterize(IList<DataPoint> dataSet)
+        public void Clusterize(DataSet dataSet)
         {
             clusters = new List<Cluster>();
-            Cluster currentCluster = new Cluster();
             visited = new HashSet<DataPoint>();
-            noise = new HashSet<DataPoint>();
+            noise = new DataSet();
 
-            foreach (var point in dataSet)
+            foreach (var point in dataSet.Data)
             {
                 if (visited.Contains(point))
                 {
@@ -31,11 +30,11 @@ namespace ClusterDomain
                 var neighbours = RegionQuery(point, dataSet);
                 if (neighbours.Count < minPoints)
                 {
-                    noise.Add(point);
+                    noise.AddPoint(point);
                 }
                 else
                 {
-                    currentCluster = new Cluster();                   
+                    var currentCluster = new Cluster();                   
                     ExpandCluster(point, neighbours, currentCluster, dataSet);
                     clusters.Add(currentCluster);
                 }
@@ -54,7 +53,7 @@ namespace ClusterDomain
         }
 
 
-        private void ExpandCluster(DataPoint center, List<DataPoint> neighbours, Cluster cluster, IList<DataPoint> dataSet)
+        private void ExpandCluster(DataPoint center, List<DataPoint> neighbours, Cluster cluster, DataSet dataSet)
         {
             cluster.AddPoint(center);
 
@@ -79,14 +78,14 @@ namespace ClusterDomain
             }
         }
 
-        private List<DataPoint> RegionQuery(DataPoint center, IList<DataPoint> dataSet)
+        private List<DataPoint> RegionQuery(DataPoint center, DataSet dataSet)
         {
-            return dataSet.Where(x => center.DistanceTo(x) <= epsilon).ToList();
+            return dataSet.Data.Where(x => center.DistanceTo(x) <= epsilon).ToList();
         }
 
         private List<Cluster> clusters;
         private HashSet<DataPoint> visited;
-        private HashSet<DataPoint> noise;
+        private DataSet noise;
         private double epsilon;
         private double minPoints;
     }

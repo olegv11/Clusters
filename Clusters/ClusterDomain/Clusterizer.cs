@@ -5,7 +5,7 @@ namespace ClusterDomain
 {
     public interface Clusterizer
     {
-        void Clusterize(IList<DataPoint> dataSet);
+        void Clusterize(DataSet dataSet);
         List<Cluster> GetClusters();
         Cluster GetNoise();
     }
