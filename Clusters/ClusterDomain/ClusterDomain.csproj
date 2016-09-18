@@ -41,6 +41,7 @@
     <Compile Include="Clusterizer.cs" />
     <Compile Include="DataPoint.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="DataSetRepository.cs" />
     <Compile Include="DbscanClasterizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

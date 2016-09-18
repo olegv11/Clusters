@@ -2,6 +2,8 @@
 using System.Linq;
 using Xunit;
 using ClusterDomain;
+using FluentAssertions;
+using FluentAssertions.Common;
 
 namespace ClusterDomainTest
 {
@@ -33,21 +35,21 @@ namespace ClusterDomainTest
             var noise = clasterizer.GetNoise();
 
             // Assert
-            // Шум не содержится ни в одном кластере
-            Assert.False(clusters.Any(cluster => cluster.Points.Contains(list[3])));
-            Assert.False(clusters.Any(cluster => cluster.Points.Contains(list[4])));
+            clusters.Select(x => x.Points).Should()
+                .NotContain(x => x.Contains(noise1), "в кластере не должно быть шума").And
+                .NotContain(x => x.Contains(noise2), "в кластере не должно быть шума");
 
             // Шум находится корректно
-            Assert.True(noise.Count == 2);
-            Assert.True(noise.Points.Contains(noise1));
-            Assert.True(noise.Points.Contains(noise2));
+            noise.Points.Should().HaveCount(2, "должно быть две точки шума")
+                .And.Contain(noise1, "noise1 должен попасть в шум")
+                .And.Contain(noise2, "noise2 должен попасть в шум");
         }
 
         [Fact]
         public void TestDbscanClusterizerShouldFindClusters()
         {
             // Arrange
-            var cluster1 = new List<DataPoint>(4)
+            var cluster1 = new HashSet<DataPoint>
             {
                 new DataPoint(new double[] {0, 0}),
                 new DataPoint(new double[] {0.5, 0.5}),
@@ -55,7 +57,7 @@ namespace ClusterDomainTest
                 new DataPoint(new double[] {2, 2})
             };
 
-            var cluster2 = new List<DataPoint>(3)
+            var cluster2 = new HashSet<DataPoint>
             {
                 new DataPoint(new double[] {10, 10}),
                 new DataPoint(new double[] {9, 11}),
@@ -72,15 +74,11 @@ namespace ClusterDomainTest
             var noise = clasterizer.GetNoise();
 
             // Assert
-            // Нашли два кластера
-            Assert.True(clusters.Count == 2);
+            clusters.Should().HaveCount(2)
+                .And.Contain(x => cluster1.SetEquals(x.Points), "первый кластер должен быть найден")
+                .And.Contain(x => cluster2.SetEquals(x.Points), "второй кластер должен быть найден");
 
-            // В них нужные элементы
-            Assert.True(clusters.Select(x => x.Points).Any(x => AreListsEquivalent(x, cluster1)));
-            Assert.True(clusters.Select(x => x.Points).Any(x => AreListsEquivalent(x, cluster2)));
-
-            // И нет шума
-            Assert.Empty(noise.Points);
+            noise.Points.Should().BeEmpty("шума не должно быть");
         }
 
         [Fact]
@@ -98,14 +96,9 @@ namespace ClusterDomainTest
             var noise = clasterizer.GetNoise();
 
             // Assert
-            Assert.Empty(clusters);
-            Assert.Empty(noise.Points);
+            clusters.Should().BeEmpty("не должно быть найдено кластеров");
+            noise.Points.Should().BeEmpty("не должно быть найдено шума");
         }
 
-
-        public bool AreListsEquivalent<T>(IEnumerable<T> list1, IEnumerable<T> list2)
-        {
-            return (list1.Count() == list2.Count()) && !list1.Except(list2).Any();
-        }
     }
 }
