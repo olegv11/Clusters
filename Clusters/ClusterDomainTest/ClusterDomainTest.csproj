@@ -14,8 +14,6 @@
     <AssemblyName>ClusterDomainTest</AssemblyName>
     <DefaultLanguage>ru-RU</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -39,9 +37,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DbscanClasterizerTest.cs" />
+    <Compile Include="PNormTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy, Version=2.2.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.2.2.0\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentAssertions, Version=4.14.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentAssertions.4.14.0\lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.dll</HintPath>
       <Private>True</Private>
@@ -50,6 +53,9 @@
       <HintPath>..\packages\FluentAssertions.4.14.0\lib\portable-net40+sl5+win8+wp8+wpa81\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
@@ -79,7 +85,10 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <Analyzer Include="..\packages\FakeItEasy.Analyzer.2.2.0\analyzers\dotnet\cs\FakeItEasy.Analyzer.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>

@@ -5,7 +5,7 @@ namespace ClusterDomain
 {
     public interface Clusterizer
     {
-        void Clusterize(DataSet dataSet);
+        void Clusterize(Metric metric, DataSet dataSet);
         List<Cluster> GetClusters();
         Cluster GetNoise();
     }
