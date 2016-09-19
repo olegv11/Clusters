@@ -12,11 +12,17 @@ namespace ClusterDomain
             this.minPoints = minPoints;
         }
 
-        public void Clusterize(DataSet dataSet)
+        public void Clusterize(Metric metric, DataSet dataSet)
         {
+            if (metric == null) throw new ArgumentNullException(nameof(metric));
+            if (dataSet == null) throw new ArgumentNullException(nameof(dataSet));
+
             clusters = new List<Cluster>();
             visited = new HashSet<DataPoint>();
             noise = new HashSet<DataPoint>();
+
+            currentMetric = metric;
+            currentDataSet = dataSet;
 
             foreach (var point in dataSet.Data)
             {
@@ -27,7 +33,7 @@ namespace ClusterDomain
 
                 visited.Add(point);
 
-                var neighbours = RegionQuery(point, dataSet);
+                var neighbours = RegionQuery(point);
                 if (neighbours.Count < minPoints)
                 {
                     noise.Add(point);
@@ -35,11 +41,10 @@ namespace ClusterDomain
                 else
                 {
                     var currentCluster = new Cluster();                   
-                    ExpandCluster(point, neighbours, currentCluster, dataSet);
+                    ExpandCluster(point, neighbours, currentCluster);
                     clusters.Add(currentCluster);
                 }
             }
-
         }
 
         public List<Cluster> GetClusters()
@@ -52,8 +57,7 @@ namespace ClusterDomain
             return new Cluster(noise);
         }
 
-
-        private void ExpandCluster(DataPoint center, List<DataPoint> neighbours, Cluster cluster, DataSet dataSet)
+        private void ExpandCluster(DataPoint center, List<DataPoint> neighbours, Cluster cluster)
         {
             cluster.AddPoint(center);
 
@@ -69,7 +73,7 @@ namespace ClusterDomain
                 cluster.AddPoint(point);
                 visited.Add(point);
 
-                var pointNeighbours = RegionQuery(point, dataSet);
+                var pointNeighbours = RegionQuery(point);
 
                 if (pointNeighbours.Count >= minPoints)
                 {
@@ -78,15 +82,21 @@ namespace ClusterDomain
             }
         }
 
-        private List<DataPoint> RegionQuery(DataPoint center, DataSet dataSet)
+        private List<DataPoint> RegionQuery(DataPoint center)
         {
-            return dataSet.Data.Where(x => center.DistanceTo(x) <= epsilon).ToList();
+            return currentDataSet.Data
+                .Where(x => currentMetric.DistanceBetween(center, x) <= epsilon)
+                .ToList();
         }
 
         private List<Cluster> clusters;
         private HashSet<DataPoint> visited;
         private HashSet<DataPoint> noise;
-        private double epsilon;
-        private double minPoints;
+
+        private readonly double epsilon;
+        private readonly double minPoints;
+
+        private Metric currentMetric;
+        private DataSet currentDataSet;
     }
 }
