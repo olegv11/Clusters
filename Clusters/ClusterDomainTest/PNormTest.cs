@@ -57,5 +57,22 @@ namespace ClusterDomainTest
             distance.Should().Be(Math.Sqrt(Math.Pow(1 + 10, 2) + Math.Pow(3 - 5, 2)),
                 "евклидова норма - корень из суммы квадратор разностей соответствующих координат");
         }
+
+        [Fact]
+        public void TestPNormShouldAllowOnlyDataSetsWithSameDimension()
+        {
+            // Arrange
+            var measure = new PNorm(10);
+            var point1 = new DataPoint(new double[] { 1, 3 });
+            var point2 = new DataPoint(new double[] { 6, -10, 12, 22 });
+            var point3 = new DataPoint(new double[] { 5, 0 });
+
+            Action doMeasureWrong = () => measure.DistanceBetween(point1, point2);
+            Action doMeasureRight = () => measure.DistanceBetween(point1, point3);
+
+            // Assert
+            doMeasureWrong.ShouldThrow<ArgumentException>("точки имеют различную размерность");
+            doMeasureRight.ShouldNotThrow<ArgumentException>("точки имеют одинаковую размерность");
+        }
     }
 }

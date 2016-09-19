@@ -19,6 +19,11 @@ namespace ClusterDomain
 
         public double DistanceBetween(DataPoint x, DataPoint y)
         {
+            if (x.Dimension != y.Dimension)
+            {
+                throw new ArgumentException("оба параметра должны совпадать по размерности");
+            }
+
             return Math.Pow(x.Values.Zip(y.Values, (a, b) => Math.Pow(Math.Abs(a-b), p)).Sum(), 1/p);
         }
 
