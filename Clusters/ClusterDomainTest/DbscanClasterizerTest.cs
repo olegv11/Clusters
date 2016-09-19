@@ -18,9 +18,9 @@ namespace ClusterDomainTest
 
             var list = new HashSet<DataPoint>
             {
-                new DataPoint(new double[] {0, 0}),
-                new DataPoint(new double[] {0.5, 0}),
-                new DataPoint(new double[] {1, 0.5}),
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
                 noisePoint,
             };
             var dataset = new DataSet(list);
@@ -51,17 +51,17 @@ namespace ClusterDomainTest
             // Arrange
             var cluster1 = new HashSet<DataPoint>
             {
-                new DataPoint(new double[] {0, 0}),
-                new DataPoint(new double[] {0.5, 0.5}),
-                new DataPoint(new double[] {-1, 0}),
-                new DataPoint(new double[] {2, 2})
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
             };
 
             var cluster2 = new HashSet<DataPoint>
             {
-                new DataPoint(new double[] {10, 10}),
-                new DataPoint(new double[] {9, 11}),
-                new DataPoint(new double[] {12, 10})
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
+                A.Fake<DataPoint>(),
             };
 
             DbscanClasterizer clasterizer = new DbscanClasterizer(5, 2);
