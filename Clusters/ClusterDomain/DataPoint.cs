@@ -25,6 +25,6 @@ namespace ClusterDomain
 
         public int Dimension => Values.Count;
 
-        private List<double> Values { get; }
+        public List<double> Values { get; }
     }
 }
