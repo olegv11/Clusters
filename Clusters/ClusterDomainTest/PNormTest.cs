@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ClusterDomain;
 using FluentAssertions;
 using Xunit;
@@ -33,12 +34,13 @@ namespace ClusterDomainTest
             var manhattan = new PNorm(1);
             var point1 = new DataPoint(new double[] { 1, 2, 3 });
             var point2 = new DataPoint(new double[] { 5, -10, 17 });
-
+            var manuallyCalculatedDistance =
+                point1.Values.Zip(point2.Values, (a, b) => Math.Abs(a - b)).Sum();
             // Act
             double distance = manhattan.DistanceBetween(point1, point2);
 
             // Assert
-            distance.Should().Be((5 - 1) + (-(-10 - 2)) + (17 - 3), 
+            distance.Should().Be(manuallyCalculatedDistance, 
                 "манхэттенское растояние - сумма разностей соответсвующих координат");
         }
 
@@ -49,12 +51,14 @@ namespace ClusterDomainTest
             var euclid = new PNorm(2);
             var point1 = new DataPoint(new double[] {1, 3});
             var point2 = new DataPoint(new double[] {-10, 5});
+            var manuallyCalculatedDistance =
+                Math.Sqrt(point1.Values.Zip(point2.Values, (a, b) => Math.Pow(a - b, 2)).Sum());
 
             // Act
             double distance = euclid.DistanceBetween(point1, point2);
 
             // Assert
-            distance.Should().Be(Math.Sqrt(Math.Pow(1 + 10, 2) + Math.Pow(3 - 5, 2)),
+            distance.Should().Be(manuallyCalculatedDistance,
                 "евклидова норма - корень из суммы квадратор разностей соответствующих координат");
         }
 
