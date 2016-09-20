@@ -11,7 +11,7 @@ namespace ClusterDomainTest
     public class DbscanClasterizerTest
     {
         [Fact]
-        public void TestDbscanClasterizerShouldDetectNoise()
+        public void DbscanClasterizerShouldDetectNoise()
         {
             // Arrange
             var noisePoint = A.Fake<DataPoint>();
@@ -46,7 +46,7 @@ namespace ClusterDomainTest
         }
         
         [Fact]
-        public void TestDbscanClusterizerShouldFindClusters()
+        public void DbscanClusterizerShouldFindClusters()
         {
             // Arrange
             var cluster1 = new HashSet<DataPoint>
@@ -94,7 +94,7 @@ namespace ClusterDomainTest
         }
 
         [Fact]
-        void TestDbscanClusterizerShouldProcessEmptyData()
+        void DbscanClusterizerShouldProcessEmptyData()
         {
             // Arrange
             var empty = new DataSet();

@@ -8,7 +8,7 @@ namespace ClusterDomainTest
     public class PNormTest
     {
         [Fact]
-        public void TestPNormShouldNotAllowIllegalP()
+        public void PNormShouldNotAllowIllegalP()
         {
             // Arrange
             Action<double> createNorm = (double p) => new PNorm(p);
@@ -27,7 +27,7 @@ namespace ClusterDomainTest
         }
 
         [Fact]
-        public void TestManhattanDistanceIsSumOfElements()
+        public void ManhattanDistanceIsSumOfElements()
         {
             // Arrange
             var manhattan = new PNorm(1);
@@ -43,7 +43,7 @@ namespace ClusterDomainTest
         }
 
         [Fact]
-        public void TestEuclideanNormIsSquarRootOfSumOfSquaredElements()
+        public void EuclideanNormIsSquarRootOfSumOfSquaredElements()
         {
             // Arrange
             var euclid = new PNorm(2);
@@ -59,7 +59,7 @@ namespace ClusterDomainTest
         }
 
         [Fact]
-        public void TestPNormShouldAllowOnlyDataSetsWithSameDimension()
+        public void PNormShouldAllowOnlyDataSetsWithSameDimension()
         {
             // Arrange
             var measure = new PNorm(10);
