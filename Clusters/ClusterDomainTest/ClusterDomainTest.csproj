@@ -39,6 +39,7 @@
     <Compile Include="DbscanClasterizerTest.cs" />
     <Compile Include="PNormTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupNormTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FakeItEasy, Version=2.2.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
