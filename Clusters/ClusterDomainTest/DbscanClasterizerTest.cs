@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using ClusterDomain;
@@ -112,6 +113,33 @@ namespace ClusterDomainTest
             clusters.Should().BeEmpty("не должно быть найдено кластеров");
             noise.Points.Should().BeEmpty("не должно быть найдено шума");
         }
+
+        [Fact]
+        public void DbScanClasterizerShouldThrowOnNullMetric()
+        {
+            // Arrange
+            var dataSet = A.Fake<DataSet>();
+            DbscanClasterizer clasterizer = new DbscanClasterizer(1,1);
+
+            Action wrongMetric = () => clasterizer.Clusterize(null, dataSet);
+
+            // Assert
+            wrongMetric.ShouldThrow<ArgumentNullException>();
+        }
+
+        [Fact]
+        public void DbScanClasterizerShouldThrowOnNullDataSet()
+        {
+            // Arrange
+            var metric = A.Fake<Metric>();
+            DbscanClasterizer clasterizer = new DbscanClasterizer(1, 1);
+
+            Action wrongSet = () => clasterizer.Clusterize(metric, null);
+
+            // Assert
+            wrongSet.ShouldThrow<ArgumentNullException>();
+        }
+
 
     }
 }
