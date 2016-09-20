@@ -114,6 +114,33 @@ namespace ClusterDomainTest
             noise.Points.Should().BeEmpty("не должно быть найдено шума");
         }
 
+        [Theory]
+        [InlineData(-2.3)]
+        [InlineData(double.NaN)]
+        [InlineData(double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity)]
+        public void DbScanClasterizerShouldThrowOnInvalidEpsilon(double eps)
+        {
+            // Arrange
+            Action createClasterizer = () => new DbscanClasterizer(eps, 1);
+
+            // Assert
+            createClasterizer.ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
+        [Theory]
+        [InlineData(-15)]
+        [InlineData(-1)]
+        [InlineData(0)]
+        public void DbScanClasterizerShouldThrowOnInvalidMinPoints(int minPoints)
+        {
+            // Arrange
+            Action createClasterizer = () => new DbscanClasterizer(1, minPoints);
+
+            // Assert
+            createClasterizer.ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
         [Fact]
         public void DbScanClasterizerShouldThrowOnNullMetric()
         {

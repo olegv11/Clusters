@@ -8,6 +8,11 @@ namespace ClusterDomain
     {
         public DbscanClasterizer(double epsilon, int minPoints)
         {
+            if (epsilon < 0 || double.IsInfinity(epsilon) || double.IsNaN(epsilon))
+                throw new ArgumentOutOfRangeException(nameof(epsilon));
+            if (minPoints <= 0)
+                throw new ArgumentOutOfRangeException(nameof(minPoints));
+
             this.epsilon = epsilon;
             this.minPoints = minPoints;
         }
