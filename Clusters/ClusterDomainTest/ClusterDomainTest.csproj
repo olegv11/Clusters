@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataSetTest.cs" />
     <Compile Include="DbscanClasterizerTest.cs" />
     <Compile Include="PNormTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
