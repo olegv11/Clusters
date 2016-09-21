@@ -34,6 +34,7 @@ namespace ClusterDomain
 
         public DateTime CreationTime { get; set; }
 
-        public string Name { get; set; }
+        // Грязный хак, позже добавлю нормальный интерфейс
+        public virtual string Name { get; set; }
     }
 }
