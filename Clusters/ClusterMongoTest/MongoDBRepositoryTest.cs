@@ -118,10 +118,10 @@ namespace ClusterMongoTest
 
             MongoDBRepository repo = new MongoDBRepository(context);
 
-            Action doGetDataSetByNameRight = () => repo.GetDataSetByName("DataSet4");
+            Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet4");
 
             // Assert
-            doGetDataSetByNameRight.ShouldThrow<MongoDBException>("Не найдено подходящего набора данных");
+            doGetDataSetByName.ShouldThrow<MongoDBException>("Не найдено подходящего набора данных");
         }
 
         [Fact]
@@ -149,10 +149,10 @@ namespace ClusterMongoTest
 
             MongoDBRepository repo = new MongoDBRepository(context);
 
-            Action doGetDataSetByNameRight = () => repo.GetDataSetByName("DataSet1");
+            Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet1");
 
             // Assert
-            doGetDataSetByNameRight.ShouldThrow<MongoDBException>("Найден повтор в базе данных");
+            doGetDataSetByName.ShouldThrow<MongoDBException>("Найден повтор в базе данных");
         }
 
     }
