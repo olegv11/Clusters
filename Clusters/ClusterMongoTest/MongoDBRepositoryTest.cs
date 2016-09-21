@@ -4,7 +4,7 @@ using ClusterDomain;
 using ClusterMongo;
 using Xunit;
 using FakeItEasy;
-using MongoDB;
+using System;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using FluentAssertions;
@@ -118,17 +118,10 @@ namespace ClusterMongoTest
 
             MongoDBRepository repo = new MongoDBRepository(context);
 
-            // Act
-            try
-            {
-                var result = repo.GetDataSetByName("DataSet4");
-            }
+            Action doGetDataSetByNameRight = () => repo.GetDataSetByName("DataSet4");
+
             // Assert
-            catch (MongoDBException e)
-            {
-                
-                e.Message.ShouldBeEquivalentTo("Не найдено подходящего набора данных");
-            }
+            doGetDataSetByNameRight.ShouldThrow<MongoDBException>("Не найдено подходящего набора данных");
         }
 
         [Fact]
@@ -156,17 +149,11 @@ namespace ClusterMongoTest
 
             MongoDBRepository repo = new MongoDBRepository(context);
 
-            // Act
-            try
-            {
-                var result = repo.GetDataSetByName("DataSet1");
-            }
-            // Assert
-            catch (MongoDBException e)
-            {
+            Action doGetDataSetByNameRight = () => repo.GetDataSetByName("DataSet1");
 
-                e.Message.ShouldBeEquivalentTo("Найден повтор в базе данных");
-            }
+            // Assert
+            doGetDataSetByNameRight.ShouldThrow<MongoDBException>("Найден повтор в базе данных");
         }
+
     }
 }
