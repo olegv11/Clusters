@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clusters", "Clusters\Clusters.csproj", "{8D08EA77-D332-4554-9291-07DC44789FF3}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterMongo", "ClusterMongo\ClusterMongo.csproj", "{EC0B559D-761C-4BEA-9225-96F82F545A27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClusterMongoTest", "ClusterMongoTest\ClusterMongoTest.csproj", "{688B3FD9-7D5F-435F-8E48-ABB73403162F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClustersUITest", "ClustersUITest\ClustersUITest.csproj", "{E8C972A5-7A72-41FA-BC65-BD11F9C3C496}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{688B3FD9-7D5F-435F-8E48-ABB73403162F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{688B3FD9-7D5F-435F-8E48-ABB73403162F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{688B3FD9-7D5F-435F-8E48-ABB73403162F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8C972A5-7A72-41FA-BC65-BD11F9C3C496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8C972A5-7A72-41FA-BC65-BD11F9C3C496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8C972A5-7A72-41FA-BC65-BD11F9C3C496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8C972A5-7A72-41FA-BC65-BD11F9C3C496}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
