@@ -30,16 +30,28 @@
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="120" />
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Добавить" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPointCommand}" />
-            <Button Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding Clusterise}"/>
-            <Button Content="Сохранить в файл" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding SaveToFile}" />
-            <Button Content="Загрузить из файла" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding LoadFromFile}" />
-            <Button Content="БД" Grid.Column="6" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBView}" />
+            <Button Content="Добавить" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPointCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=PX, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=PY, Path=(Validation.HasError)}" Value="false" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding ClusteriseCommand}"/>
+            <Button Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBViewCommand}" />
 
             <StackPanel Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Выбор метрики" />
@@ -61,7 +73,7 @@
 
             <DockPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="X: " />
-                <TextBox DockPanel.Dock="Right">
+                <TextBox DockPanel.Dock="Right" Name="PX">
                     <TextBox.Text>
                         <Binding Path="XInput" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>
@@ -73,7 +85,7 @@
             </DockPanel>
             <DockPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Y: " />
-                <TextBox DockPanel.Dock="Right">
+                <TextBox DockPanel.Dock="Right" Name="PY">
                     <TextBox.Text>
                         <Binding Path="YInput" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>

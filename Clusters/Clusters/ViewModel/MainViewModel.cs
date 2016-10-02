@@ -1,4 +1,7 @@
+using ClusterDomain;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using System.Collections.Generic;
 
 namespace Clusters.ViewModel
 {
@@ -29,6 +32,108 @@ namespace Clusters.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+
+            points = new List<DataPoint>();
         }
+
+        #region Properties
+
+        private double xInput;
+        public double XInput
+        {
+            get { return xInput; }
+            set
+            {
+                if (xInput != value)
+                {
+                    xInput = value;
+                    RaisePropertyChanged(nameof(XInput));
+                }
+            }
+        }
+
+        private double yInput;
+        public double YInput
+        {
+            get { return yInput; }
+            set
+            {
+                if (yInput != value)
+                {
+                    yInput = value;
+                    RaisePropertyChanged(nameof(YInput));
+                }
+            }
+        }
+
+        private int metricParameterValue;
+        public int MetricParameterValue
+        {
+            get { return metricParameterValue; }
+            set
+            {
+                if (metricParameterValue != value)
+                {
+                    metricParameterValue = value;
+                    RaisePropertyChanged(nameof(MetricParameterValue));
+                }
+            }
+        }
+
+
+        #endregion
+
+        #region Commands
+
+        private RelayCommand addPointCommand;
+        public RelayCommand AddPointCommand
+        {
+            get
+            {
+                if (addPointCommand == null)
+                {
+                    addPointCommand = new RelayCommand(AddPoint);
+                }
+                return addPointCommand;
+            }
+        }
+
+        private RelayCommand clusteriseCommand;
+        public RelayCommand ClusteriseCommand
+        {
+            get
+            {
+                if (clusteriseCommand == null)
+                {
+                    clusteriseCommand = new RelayCommand(Clusterise);
+                }
+                return clusteriseCommand;
+            }
+        }
+
+        #endregion
+
+
+        #region Private Methods
+
+        private void AddPoint()
+        {
+            points.Add(new DataPoint(XInput, YInput));
+        }
+
+
+        private void Clusterise()
+        {
+
+        }
+
+        #endregion
+
+
+        #region Private Fields
+
+        private List<DataPoint> points;
+
+        #endregion
     }
 }

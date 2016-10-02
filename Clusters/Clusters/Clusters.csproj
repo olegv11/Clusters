@@ -140,6 +140,12 @@
   <ItemGroup>
     <Folder Include="Extesions\Converters\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClusterDomain\ClusterDomain.csproj">
+      <Project>{D539023F-885E-4081-8766-07A3BB7E0C26}</Project>
+      <Name>ClusterDomain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
