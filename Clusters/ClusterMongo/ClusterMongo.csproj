@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBContext.cs" />
     <Compile Include="MongoDBException.cs" />
     <Compile Include="MongoDBContext.cs" />
     <Compile Include="MongoDBRepository.cs" />

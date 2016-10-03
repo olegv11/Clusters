@@ -6,11 +6,11 @@ using ClusterDomain;
 
 namespace ClusterMongo
 {
-    public class MongoDBRepository : DataSetRepository
+    public class DBRepository : DataSetRepository
     {
-        private MongoDBContext context;
+        private DBContext context;
 
-        public MongoDBRepository(MongoDBContext initContext)
+        public DBRepository(DBContext initContext)
         {
             context = initContext;
         }

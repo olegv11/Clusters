@@ -18,7 +18,7 @@ namespace ClusterMongoTest
         {
             // Arrange
             
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var list = new List<DataSet>
             {
@@ -29,7 +29,7 @@ namespace ClusterMongoTest
 
             A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
 
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             // Act
             var result = repo.GetAllDataSets();
@@ -44,12 +44,12 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var list = new List<DataSet>{ }.AsEnumerable();
             A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
 
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             // Act
             var result = repo.GetAllDataSets();
@@ -64,7 +64,7 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var dataSet1 = A.Fake<DataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
@@ -82,7 +82,7 @@ namespace ClusterMongoTest
 
             A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
 
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             // Act
             var result = repo.GetDataSetByName("DataSet2");
@@ -98,7 +98,7 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var dataSet1 = A.Fake<DataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
@@ -116,7 +116,7 @@ namespace ClusterMongoTest
 
             A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
 
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet4");
 
@@ -129,7 +129,7 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var dataSet1 = A.Fake<DataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
@@ -147,7 +147,7 @@ namespace ClusterMongoTest
 
             A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
 
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet1");
 
@@ -160,12 +160,12 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var dataSet1 = A.Fake<DataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
             A.CallTo(() => context.SaveDataSet(dataSet1)).DoesNothing();
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             repo.SaveDataSet(dataSet1);
 
@@ -179,12 +179,12 @@ namespace ClusterMongoTest
         {
             // Arrange
 
-            var context = A.Fake<MongoDBContext>();
+            var context = A.Fake<DBContext>();
 
             var dataSet1 = A.Fake<DataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
             A.CallTo(() => context.DeleteDataSet(dataSet1.Name)).DoesNothing();
-            MongoDBRepository repo = new MongoDBRepository(context);
+            DBRepository repo = new DBRepository(context);
 
             repo.DeleteDataSet(dataSet1.Name);
 

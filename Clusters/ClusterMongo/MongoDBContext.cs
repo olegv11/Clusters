@@ -5,7 +5,7 @@ using MongoDB.Driver.Linq;
 
 namespace ClusterMongo
 {
-    public class MongoDBContext
+    public class MongoDBContext : DBContext
     {
         public MongoDBContext() { }
 
@@ -16,17 +16,17 @@ namespace ClusterMongo
             DataSet = database.GetCollection<DataSet>("DataSet");
         }
 
-        public virtual IEnumerable<DataSet> DataSetAsEnumerable()
+        public IEnumerable<DataSet> DataSetAsEnumerable()
         {
             return DataSet.AsQueryable().ToEnumerable();
         }
 
-        public virtual void SaveDataSet(DataSet dataSet)
+        public void SaveDataSet(DataSet dataSet)
         {
             DataSet.InsertOne(dataSet);
         }
 
-        public virtual void DeleteDataSet(string name)
+        public void DeleteDataSet(string name)
         {
             if (!DataSet.DeleteOne(x => x.Name == name).IsAcknowledged)
             {
@@ -34,6 +34,6 @@ namespace ClusterMongo
             }
         }
 
-        public virtual IMongoCollection<DataSet> DataSet { set; get; }
+        public IMongoCollection<DataSet> DataSet { set; get; }
     }
 }
