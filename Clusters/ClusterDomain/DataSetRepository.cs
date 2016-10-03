@@ -4,9 +4,9 @@ namespace ClusterDomain
 {
     public interface DataSetRepository
     {
-        IEnumerable<DataSet> GetAllDataSets();
-        DataSet GetDataSetByName(string name);
-        void SaveDataSet(DataSet dataSet);
+        IEnumerable<DataSetInterface> GetAllDataSets();
+        DataSetInterface GetDataSetByName(string name);
+        void SaveDataSet(DataSetInterface dataSet);
         void DeleteDataSet(string name);
     }
 }

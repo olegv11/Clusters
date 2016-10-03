@@ -13,15 +13,15 @@ namespace ClusterMongo
         {
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase(databaseName);
-            DataSet = database.GetCollection<DataSet>("DataSet");
+            DataSet = database.GetCollection<DataSetInterface>("DataSet");
         }
 
-        public IEnumerable<DataSet> DataSetAsEnumerable()
+        public IEnumerable<DataSetInterface> DataSetAsEnumerable()
         {
             return DataSet.AsQueryable().ToEnumerable();
         }
 
-        public void SaveDataSet(DataSet dataSet)
+        public void SaveDataSet(DataSetInterface dataSet)
         {
             DataSet.InsertOne(dataSet);
         }
@@ -34,6 +34,6 @@ namespace ClusterMongo
             }
         }
 
-        public IMongoCollection<DataSet> DataSet { set; get; }
+        public IMongoCollection<DataSetInterface> DataSet { set; get; }
     }
 }

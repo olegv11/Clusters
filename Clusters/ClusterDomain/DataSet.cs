@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClusterDomain
 {
-    public class DataSet
+    public class DataSet : DataSetInterface
     {
         public DataSet()
         {
@@ -34,7 +34,6 @@ namespace ClusterDomain
 
         public DateTime CreationTime { get; set; }
 
-        // Грязный хак, позже добавлю нормальный интерфейс
-        public virtual string Name { get; set; }
+        public string Name { get; set; }
     }
 }

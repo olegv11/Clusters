@@ -9,8 +9,8 @@ namespace ClusterMongo
 {
     public interface DBContext
     {
-        IEnumerable<DataSet> DataSetAsEnumerable();
-        void SaveDataSet(DataSet dataSet);
+        IEnumerable<DataSetInterface> DataSetAsEnumerable();
+        void SaveDataSet(DataSetInterface dataSet);
         void DeleteDataSet(string name);
 
 

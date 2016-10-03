@@ -38,6 +38,7 @@
     <Compile Include="DataSet.cs" />
     <Compile Include="DataSetRepository.cs" />
     <Compile Include="DbscanClasterizer.cs" />
+    <Compile Include="DataSetInterface.cs" />
     <Compile Include="Metric.cs" />
     <Compile Include="PNorm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
