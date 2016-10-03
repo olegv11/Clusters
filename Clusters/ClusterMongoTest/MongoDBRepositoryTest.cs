@@ -5,14 +5,41 @@ using ClusterMongo;
 using Xunit;
 using FakeItEasy;
 using System;
-using MongoDB.Driver;
-using MongoDB.Driver.Linq;
 using FluentAssertions;
 
 namespace ClusterMongoTest
 {
     public class MongoDBRepositoryTest
     {
+        [Fact]
+        public void TestMongoDBRepositoryShouldBeCreated()
+        {
+            // Arrange
+
+            var context = A.Fake<DBContext>();
+
+            // Act
+
+            Action doCallConstructorRight = () => new DBRepository(context);
+
+            // Assert
+
+            doCallConstructorRight.ShouldNotThrow("корректный вызов конструктора");
+        }
+
+        [Fact]
+        public void TestMongoDBRepositoryShouldThrowExceptionOnConstructorWithNullAsParameter()
+        {
+            // Act
+
+            Action doCallConstructorWrong = () => new DBRepository(null);
+
+            // Assert
+
+            doCallConstructorWrong.ShouldThrow<ArgumentException>().WithMessage("Некорректный параметр конструктора");
+        }
+
+
         [Fact]
         public void TestMongoDBRepositoryShouldGetAllDataSets()
         {
@@ -121,7 +148,7 @@ namespace ClusterMongoTest
             Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet4");
 
             // Assert
-            doGetDataSetByName.ShouldThrow<MongoDBException>("Не найдено подходящего набора данных");
+            doGetDataSetByName.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных");
         }
 
         [Fact]
@@ -152,7 +179,7 @@ namespace ClusterMongoTest
             Action doGetDataSetByName = () => repo.GetDataSetByName("DataSet1");
 
             // Assert
-            doGetDataSetByName.ShouldThrow<MongoDBException>("Найден повтор в базе данных");
+            doGetDataSetByName.ShouldThrow<MongoDBException>().WithMessage("Найден повтор в базе данных");
         }
 
         [Fact]

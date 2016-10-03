@@ -7,8 +7,6 @@ namespace ClusterMongo
 {
     public class MongoDBContext : DBContext
     {
-        public MongoDBContext() { }
-
         public MongoDBContext(string connectionString, string databaseName)
         {
             var client = new MongoClient(connectionString);

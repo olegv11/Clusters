@@ -3,6 +3,7 @@ using MongoDB.Driver.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using ClusterDomain;
+using System;
 
 namespace ClusterMongo
 {
@@ -12,6 +13,10 @@ namespace ClusterMongo
 
         public DBRepository(DBContext initContext)
         {
+            if(initContext == null)
+            {
+                throw new ArgumentException("Некорректный параметр конструктора");
+            }
             context = initContext;
         }
 
