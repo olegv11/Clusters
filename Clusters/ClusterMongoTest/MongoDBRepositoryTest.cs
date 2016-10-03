@@ -155,5 +155,42 @@ namespace ClusterMongoTest
             doGetDataSetByName.ShouldThrow<MongoDBException>("Найден повтор в базе данных");
         }
 
+        [Fact]
+        public void TestMongoDBRepositorySaveDataSetShouldCallContextSaveDataSetFunction()
+        {
+            // Arrange
+
+            var context = A.Fake<MongoDBContext>();
+
+            var dataSet1 = A.Fake<DataSet>();
+            A.CallTo(() => dataSet1.Name).Returns("DataSet1");
+            A.CallTo(() => context.SaveDataSet(dataSet1)).DoesNothing();
+            MongoDBRepository repo = new MongoDBRepository(context);
+
+            repo.SaveDataSet(dataSet1);
+
+            //Assert
+            A.CallTo(() => context.SaveDataSet(A<DataSet>.That.Matches(ds => 
+                ds == dataSet1))).MustHaveHappened();
+        }
+
+        [Fact]
+        public void TestMongoDBRepositoryDeleteDataSetShouldCallContextDeleteDataSetFunction()
+        {
+            // Arrange
+
+            var context = A.Fake<MongoDBContext>();
+
+            var dataSet1 = A.Fake<DataSet>();
+            A.CallTo(() => dataSet1.Name).Returns("DataSet1");
+            A.CallTo(() => context.DeleteDataSet(dataSet1.Name)).DoesNothing();
+            MongoDBRepository repo = new MongoDBRepository(context);
+
+            repo.DeleteDataSet(dataSet1.Name);
+
+            //Assert
+            A.CallTo(() => context.DeleteDataSet(A<string>.That.Matches(name =>
+                name == dataSet1.Name))).MustHaveHappened();
+        }
     }
 }

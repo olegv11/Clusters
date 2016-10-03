@@ -21,6 +21,19 @@ namespace ClusterMongo
             return DataSet.AsQueryable().ToEnumerable();
         }
 
+        public virtual void SaveDataSet(DataSet dataSet)
+        {
+            DataSet.InsertOne(dataSet);
+        }
+
+        public virtual void DeleteDataSet(string name)
+        {
+            if (!DataSet.DeleteOne(x => x.Name == name).IsAcknowledged)
+            {
+                throw new MongoDBException("Ошибка при удалении");
+            }
+        }
+
         public virtual IMongoCollection<DataSet> DataSet { set; get; }
     }
 }

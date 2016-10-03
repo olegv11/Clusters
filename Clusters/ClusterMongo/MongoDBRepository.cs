@@ -40,15 +40,12 @@ namespace ClusterMongo
 
         public void SaveDataSet(DataSet item)
         {
-            context.DataSet.InsertOne(item);
+            context.SaveDataSet(item);
         }
 
         public void DeleteDataSet(string name)
         {
-            if (!context.DataSet.DeleteOne(x => x.Name == name).IsAcknowledged)
-            {
-                throw new MongoDBException();
-            }
+            context.DeleteDataSet(name);
         }
     }
 }
