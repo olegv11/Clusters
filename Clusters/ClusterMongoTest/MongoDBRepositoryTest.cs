@@ -12,7 +12,7 @@ namespace ClusterMongoTest
     public class MongoDBRepositoryTest
     {
         [Fact]
-        public void TestMongoDBRepositoryShouldBeCreated()
+        public void MongoDBRepositoryShouldBeCreated()
         {
             // Arrange
 
@@ -28,7 +28,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryShouldThrowExceptionOnConstructorWithNullAsParameter()
+        public void MongoDBRepositoryShouldThrowExceptionOnConstructorWithNullAsParameter()
         {
             // Act
 
@@ -41,7 +41,7 @@ namespace ClusterMongoTest
 
 
         [Fact]
-        public void TestMongoDBRepositoryShouldGetAllDataSets()
+        public void MongoDBRepositoryShouldGetAllDataSets()
         {
             // Arrange
             
@@ -67,7 +67,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryShouldGetAllDataSetsIfEmpty()
+        public void MongoDBRepositoryShouldGetAllDataSetsIfEmpty()
         {
             // Arrange
 
@@ -87,7 +87,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryShouldGetDataSetByName()
+        public void MongoDBRepositoryShouldGetDataSetByName()
         {
             // Arrange
 
@@ -121,7 +121,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryShouldThrowAnExceptionIfNoFoundOnGetDataSetByName()
+        public void MongoDBRepositoryShouldThrowAnExceptionIfNoFoundOnGetDataSetByName()
         {
             // Arrange
 
@@ -152,7 +152,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryShouldThrowAnExceptionIfMultipleFoundOnGetDataSetByName()
+        public void MongoDBRepositoryShouldThrowAnExceptionIfMultipleFoundOnGetDataSetByName()
         {
             // Arrange
 
@@ -183,7 +183,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositorySaveDataSetShouldCallContextSaveDataSetFunction()
+        public void MongoDBRepositorySaveDataSetShouldCallContextSaveDataSetFunction()
         {
             // Arrange
 
@@ -202,7 +202,7 @@ namespace ClusterMongoTest
         }
 
         [Fact]
-        public void TestMongoDBRepositoryDeleteDataSetShouldCallContextDeleteDataSetFunction()
+        public void MongoDBRepositoryDeleteDataSetShouldCallContextDeleteDataSetFunction()
         {
             // Arrange
 

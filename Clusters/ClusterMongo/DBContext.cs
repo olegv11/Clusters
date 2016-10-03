@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ClusterDomain;
 
 namespace ClusterMongo
@@ -12,7 +8,5 @@ namespace ClusterMongo
         IEnumerable<DataSetInterface> DataSetAsEnumerable();
         void SaveDataSet(DataSetInterface dataSet);
         void DeleteDataSet(string name);
-
-
     }
 }
