@@ -47,14 +47,14 @@ namespace ClusterMongoTest
             
             var context = A.Fake<DBContext>();
 
-            var list = new List<DataSetInterface>
+            var list = new List<IDataSet>
             {
-                A.Fake<DataSetInterface>(),
-                A.Fake<DataSetInterface>(),
-                A.Fake<DataSetInterface>()
+                A.Fake<IDataSet>(),
+                A.Fake<IDataSet>(),
+                A.Fake<IDataSet>()
             }.AsEnumerable();
 
-            A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
+            A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
 
@@ -73,8 +73,8 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var list = new List<DataSetInterface>{ }.AsEnumerable();
-            A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
+            var list = new List<IDataSet>{ }.AsEnumerable();
+            A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
 
@@ -93,21 +93,21 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var dataSet1 = A.Fake<DataSetInterface>();
+            var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
-            var dataSet2 = A.Fake<DataSetInterface>();
+            var dataSet2 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet2.Name).Returns("DataSet2");
-            var dataSet3 = A.Fake<DataSetInterface>();
+            var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<DataSetInterface>
+            var list = new List<IDataSet>
             {
                 dataSet1,
                 dataSet2,
                 dataSet3
             }.AsEnumerable();
 
-            A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
+            A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
 
@@ -127,21 +127,21 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var dataSet1 = A.Fake<DataSetInterface>();
+            var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
-            var dataSet2 = A.Fake<DataSetInterface>();
+            var dataSet2 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet2.Name).Returns("DataSet2");
-            var dataSet3 = A.Fake<DataSetInterface>();
+            var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<DataSetInterface>
+            var list = new List<IDataSet>
             {
                 dataSet1,
                 dataSet2,
                 dataSet3
             }.AsEnumerable();
 
-            A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
+            A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
 
@@ -158,21 +158,21 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var dataSet1 = A.Fake<DataSetInterface>();
+            var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
-            var dataSet2 = A.Fake<DataSetInterface>();
+            var dataSet2 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet2.Name).Returns("DataSet1");
-            var dataSet3 = A.Fake<DataSetInterface>();
+            var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<DataSetInterface>
+            var list = new List<IDataSet>
             {
                 dataSet1,
                 dataSet2,
                 dataSet3
             }.AsEnumerable();
 
-            A.CallTo(() => context.DataSetAsEnumerable()).Returns(list);
+            A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
 
@@ -189,7 +189,7 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var dataSet1 = A.Fake<DataSetInterface>();
+            var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
             A.CallTo(() => context.SaveDataSet(dataSet1)).DoesNothing();
             DBRepository repo = new DBRepository(context);
@@ -197,7 +197,7 @@ namespace ClusterMongoTest
             repo.SaveDataSet(dataSet1);
 
             //Assert
-            A.CallTo(() => context.SaveDataSet(A<DataSetInterface>.That.Matches(ds => 
+            A.CallTo(() => context.SaveDataSet(A<IDataSet>.That.Matches(ds => 
                 ds == dataSet1))).MustHaveHappened();
         }
 
@@ -208,7 +208,7 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var dataSet1 = A.Fake<DataSetInterface>();
+            var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
             A.CallTo(() => context.DeleteDataSet(dataSet1.Name)).DoesNothing();
             DBRepository repo = new DBRepository(context);

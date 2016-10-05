@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Driver;
+using System.Collections.Generic;
 using ClusterDomain;
 
 namespace ClusterMongo
 {
     public interface DBContext
     {
-        IEnumerable<DataSetInterface> DataSetAsEnumerable();
-        void SaveDataSet(DataSetInterface dataSet);
+        IEnumerable<IDataSet> GetDataSets();
+        void SaveDataSet(IDataSet dataSet);
         void DeleteDataSet(string name);
     }
 }

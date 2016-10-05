@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClusterDomain
 {
-    public interface DataSetInterface
+    public interface IDataSet
     {
         DateTime CreationTime { get; set; }
         HashSet<DataPoint> Data { get; }

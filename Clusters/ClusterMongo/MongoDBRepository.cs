@@ -20,14 +20,14 @@ namespace ClusterMongo
             context = initContext;
         }
 
-        public IEnumerable<DataSetInterface> GetAllDataSets()
+        public IEnumerable<IDataSet> GetAllDataSets()
         {
-            return context.DataSetAsEnumerable();
+            return context.GetDataSets();
         }
 
-        public DataSetInterface GetDataSetByName(string name)
+        public IDataSet GetDataSetByName(string name)
         {
-            var result = context.DataSetAsEnumerable().Where(x => x.Name == name);
+            var result = context.GetDataSets().Where(x => x.Name == name);
 
             if (result.Count() == 0)
             {
@@ -43,7 +43,7 @@ namespace ClusterMongo
             
         }
 
-        public void SaveDataSet(DataSetInterface item)
+        public void SaveDataSet(IDataSet item)
         {
             context.SaveDataSet(item);
         }

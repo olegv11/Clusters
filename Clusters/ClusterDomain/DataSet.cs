@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClusterDomain
 {
-    public class DataSet : DataSetInterface
+    public class DataSet : IDataSet
     {
         public DataSet()
         {
