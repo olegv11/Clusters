@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClusterDomain;
+using FakeItEasy;
 using FluentAssertions;
 using Xunit;
 
@@ -8,6 +10,24 @@ namespace ClusterDomainTest
 {
     public class SupNormTest
     {
+        public static IEnumerable<DataPoint[]> GetPointsWithNull => new[]
+        {
+            new DataPoint[] {null, null},
+            new DataPoint[] {A.Fake<DataPoint>(), null},
+            new DataPoint[] {null, A.Fake<DataPoint>()},
+        };
+
+        [Theory, MemberData("GetPointsWithNull")]
+        public void SupNormShouldThrowIfAnyParameterIsNull(DataPoint x, DataPoint y)
+        {
+            // Arrange
+            var measure = new SupNorm();
+            Action calculateDistance = () => measure.DistanceBetween(x, y);
+
+            // Assert
+            calculateDistance.ShouldThrow<ArgumentNullException>();
+        }
+
         [Fact]
         public void SupNormShouldAllowOnlyDataSetsWithSameDimension()
         {

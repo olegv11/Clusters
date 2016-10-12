@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ClusterDomain;
 using FakeItEasy;
@@ -10,13 +11,37 @@ namespace ClusterDomainTest
     public class DataSetTest
     {
         [Fact]
-        public void DataSetShouldBeEmptyOnDefaulyConstructor()
+        public void DataSetShouldBeEmptyOnDefaultConstructor()
         {
             // Arrange
             var dataSet = new DataSet();
 
             // Assert
             dataSet.Data.Should().BeEmpty("по умолчанию создаётся пустое множество данных");
+        }
+
+        [Fact]
+        public void DataSetShouldBeEmptyWhenEmptyEnumerableSuppliedToConstructor()
+        {
+            // Arrange
+            IEnumerable<DataPoint> enumerable = new List<DataPoint>();
+
+            // Act
+            var dataSet = new DataSet(enumerable);
+
+            // Assert
+            dataSet.Data.Should().BeEmpty(
+                "при создании множества с помощью пустого IEnumerable оно само должно быть пустым");
+        }
+
+        [Fact]
+        public void DataSetShouldThrowWhenNullSuppliedToConstructor()
+        {
+            // Arrange
+            Action createDataSet = () => new DataSet(null);
+
+            // Assert
+            createDataSet.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
@@ -29,6 +54,7 @@ namespace ClusterDomainTest
                 A.Fake<DataPoint>(),
                 A.Fake<DataPoint>(),
             };
+            
 
             // Act
             var dataSet = new DataSet(enumerable);
