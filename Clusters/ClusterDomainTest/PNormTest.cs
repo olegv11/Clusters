@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClusterDomain;
+using FakeItEasy;
 using FluentAssertions;
 using Xunit;
 
@@ -25,6 +27,24 @@ namespace ClusterDomainTest
                 .ShouldNotThrow<ArgumentOutOfRangeException>("1 больше или равно 1");
             createNorm.Invoking(x => x.Invoke(500))
                 .ShouldNotThrow<ArgumentOutOfRangeException>("500 больше или равно 1");
+        }
+
+        public static IEnumerable<DataPoint[]> GetPointsWithNull => new[]
+        {
+            new DataPoint[] {null, null},
+            new DataPoint[] {A.Fake<DataPoint>(), null},
+            new DataPoint[] {null, A.Fake<DataPoint>()},
+        };
+
+        [Theory, MemberData(nameof(GetPointsWithNull))]
+        public void PNormShouldThrowIfAnyParameterIsNull(DataPoint x, DataPoint y)
+        {
+            // Arrange
+            var measure = new PNorm(1);
+            Action calculateDistance = () => measure.DistanceBetween(x, y);
+
+            // Assert
+            calculateDistance.ShouldThrow<ArgumentNullException>();
         }
 
         [Fact]
