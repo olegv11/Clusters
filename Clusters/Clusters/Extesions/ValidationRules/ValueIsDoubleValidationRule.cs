@@ -17,7 +17,7 @@ namespace Clusters.Extesions.ValidationRules
                 return new ValidationResult(false, "value must exist");
             }
             double result;
-            if (Double.TryParse((string)value, out result) == false)
+            if (Double.TryParse((string)value, NumberStyles.Any, cultureInfo, out result) == false)
             {
                 return new ValidationResult(false, "value must be double");
             }

@@ -45,7 +45,7 @@ namespace ClustersUITest
             var validator = new ValueIsIntegerGreaterThanOneValidationRule();
 
             //Act
-            var validationResult = validator.Validate("hello", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("hello", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be integer"));
@@ -59,7 +59,7 @@ namespace ClustersUITest
             var validator = new ValueIsIntegerGreaterThanOneValidationRule();
 
             //Act
-            var validationResult = validator.Validate("3zx", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("3zx", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be integer"));
@@ -73,7 +73,7 @@ namespace ClustersUITest
             var validator = new ValueIsIntegerGreaterThanOneValidationRule();
 
             //Act
-            var validationResult = validator.Validate("3.14159", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("3.14159", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be integer"));
@@ -86,7 +86,7 @@ namespace ClustersUITest
             var validator = new ValueIsIntegerGreaterThanOneValidationRule();
 
             //Act
-            var validationResult = validator.Validate("1", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("1", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be greater than one"));
@@ -99,7 +99,7 @@ namespace ClustersUITest
             var validator = new ValueIsIntegerGreaterThanOneValidationRule();
 
             //Act
-            var validationResult = validator.Validate("2", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("2", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(true, "validated"));

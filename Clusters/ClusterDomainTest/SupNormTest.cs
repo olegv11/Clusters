@@ -17,7 +17,7 @@ namespace ClusterDomainTest
             new DataPoint[] {null, A.Fake<DataPoint>()},
         };
 
-        [Theory, MemberData("GetPointsWithNull")]
+        [Theory, MemberData(nameof(GetPointsWithNull))]
         public void SupNormShouldThrowIfAnyParameterIsNull(DataPoint x, DataPoint y)
         {
             // Arrange
@@ -51,7 +51,7 @@ namespace ClusterDomainTest
             // Arrange
             var measure = new SupNorm();
             var point1 = new DataPoint(new double[] {5, 4});
-            var point2 = new DataPoint(new double[] {6, 6});
+            var point2 = new DataPoint(new double[] {2, 6});
             var manuallyCalculatedDistance =
                 point1.Values.Zip(point2.Values, (a, b) => Math.Abs(a - b)).Max();
 

@@ -17,7 +17,7 @@ namespace Clusters.Extesions.ValidationRules
                 return new ValidationResult(false, "value must exist");
             }
             int result;
-            if (Int32.TryParse((string)value, out result) == false)
+            if (Int32.TryParse((string)value, NumberStyles.Any, cultureInfo, out result) == false)
             {
                 return new ValidationResult(false, "value must be integer");
             }

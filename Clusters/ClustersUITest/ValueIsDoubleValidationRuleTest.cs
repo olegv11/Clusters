@@ -18,7 +18,7 @@ namespace ClustersUITest
             var validator = new ValueIsDoubleValidationRule();
 
             //Act
-            var validationResult = validator.Validate(null, System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate(null, System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must exist"));
@@ -31,7 +31,7 @@ namespace ClustersUITest
             var validator = new ValueIsDoubleValidationRule();
 
             //Act
-            var validationResult = validator.Validate("", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be double"));
@@ -44,7 +44,7 @@ namespace ClustersUITest
             var validator = new ValueIsDoubleValidationRule();
 
             //Act
-            var validationResult = validator.Validate("hello", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("hello", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be double"));
@@ -58,7 +58,7 @@ namespace ClustersUITest
             var validator = new ValueIsDoubleValidationRule();
 
             //Act
-            var validationResult = validator.Validate("3.14zx", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("3.14zx", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(false, "value must be double"));
@@ -72,7 +72,7 @@ namespace ClustersUITest
             var validator = new ValueIsDoubleValidationRule();
 
             //Act
-            var validationResult = validator.Validate("3.14159", System.Globalization.CultureInfo.CurrentCulture);
+            var validationResult = validator.Validate("3.14159", System.Globalization.CultureInfo.InvariantCulture);
 
             //Assert
             validationResult.Should().Be(new System.Windows.Controls.ValidationResult(true, "validated"));
