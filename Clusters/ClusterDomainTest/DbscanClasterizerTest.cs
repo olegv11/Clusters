@@ -40,8 +40,9 @@ namespace ClusterDomainTest
 
             // Assert
             clusters.Select(x => x.Points).Should()
-                .NotContain(x => x.Contains(noisePoint), "ни в одном кластере не должно быть шума");
-            // Шум находится корректно
+                .NotContain(x => x.Contains(noisePoint), "ни в одном кластере не должно быть шума")
+                .And.HaveCount(1);
+            clusters[0].Points.Should().HaveCount(list.Count - 1);
             noise.Points.Should().HaveCount(1, "должна быть одна точка шума")
                 .And.Contain(noisePoint, "noisePoint должен попасть в шум");
         }
@@ -139,6 +140,16 @@ namespace ClusterDomainTest
 
             // Assert
             createClasterizer.ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void DbScanClasterizerShouldNotThrowOnCorrectInput()
+        {
+            // Arrange
+            Action createClasterizer = () => new DbscanClasterizer(2, 5);
+
+            // Assert
+            createClasterizer.ShouldNotThrow<ArgumentOutOfRangeException>();
         }
 
         [Fact]
