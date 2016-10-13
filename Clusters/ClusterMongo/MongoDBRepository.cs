@@ -50,11 +50,19 @@ namespace ClusterMongo
 
         public void SaveDataSet(IDataSet item)
         {
+            if(item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
             context.SaveDataSet(item);
         }
 
         public void DeleteDataSet(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
             context.DeleteDataSet(name);
         }
     }

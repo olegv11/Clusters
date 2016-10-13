@@ -244,11 +244,27 @@ namespace ClusterMongoTest
             A.CallTo(() => context.SaveDataSet(dataSet1)).DoesNothing();
             DBRepository repo = new DBRepository(context);
 
+            // Act
             repo.SaveDataSet(dataSet1);
 
-            //Assert
+            // Assert
             A.CallTo(() => context.SaveDataSet(A<IDataSet>.That.Matches(ds => 
                 ds == dataSet1))).MustHaveHappened();
+        }
+
+        [Fact]
+        public void MongoDBRepositorySaveDataSetShouldThrowAnExceptionIfArgumentIsNull()
+        {
+            // Arrange
+
+            var context = A.Fake<DBContext>();
+            A.CallTo(() => context.SaveDataSet(null)).DoesNothing();
+            DBRepository repo = new DBRepository(context);
+
+            Action act = () => repo.SaveDataSet(null);
+
+            //Assert
+            act.ShouldThrow<ArgumentNullException>("передан null в качестве аргумента.");
         }
 
         [Fact]
@@ -263,11 +279,27 @@ namespace ClusterMongoTest
             A.CallTo(() => context.DeleteDataSet(dataSet1.Name)).DoesNothing();
             DBRepository repo = new DBRepository(context);
 
+            // Act
             repo.DeleteDataSet(dataSet1.Name);
 
-            //Assert
+            // Assert
             A.CallTo(() => context.DeleteDataSet(A<string>.That.Matches(name =>
                 name == dataSet1.Name))).MustHaveHappened();
+        }
+
+        [Fact]
+        public void MongoDBRepositoryDeleteDataSetShouldThrowAnExceptionIfArgumentIsNull()
+        {
+            // Arrange
+
+            var context = A.Fake<DBContext>();
+            A.CallTo(() => context.DeleteDataSet(null)).DoesNothing();
+            DBRepository repo = new DBRepository(context);
+
+            Action act = () => repo.DeleteDataSet(null);
+
+            //Assert
+            act.ShouldThrow<ArgumentNullException>("передан null в качестве аргумента.");
         }
     }
 }
