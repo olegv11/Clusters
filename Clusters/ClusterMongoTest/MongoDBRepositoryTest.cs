@@ -47,12 +47,12 @@ namespace ClusterMongoTest
             
             var context = A.Fake<DBContext>();
 
-            var list = new List<IDataSet>
+            var list = new IDataSet[]
             {
                 A.Fake<IDataSet>(),
                 A.Fake<IDataSet>(),
                 A.Fake<IDataSet>()
-            }.AsEnumerable();
+            };
 
             A.CallTo(() => context.GetDataSets()).Returns(list);
 
@@ -63,7 +63,7 @@ namespace ClusterMongoTest
 
             // Assert
 
-            result.Should().HaveCount(3, "должно быть 3 набора данных.");
+            result.Should().BeEquivalentTo(list, "должны быть равны все элементы.");
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace ClusterMongoTest
 
             var context = A.Fake<DBContext>();
 
-            var list = new List<IDataSet>{ }.AsEnumerable();
+            var list = new IDataSet[] {};
             A.CallTo(() => context.GetDataSets()).Returns(list);
 
             DBRepository repo = new DBRepository(context);
@@ -83,7 +83,26 @@ namespace ClusterMongoTest
 
             // Assert
 
-            result.Should().HaveCount(0, "должно быть 0 наборов данных.");
+            result.Should().BeEmpty("должно быть 0 наборов данных.");
+        }
+
+        [Fact]
+        public void MongoDBRepositoryShouldGetAllDataSetsIfNull()
+        {
+            // Arrange
+
+            var context = A.Fake<DBContext>();
+
+            A.CallTo(() => context.GetDataSets()).Returns(null);
+
+            DBRepository repo = new DBRepository(context);
+
+            // Act
+            var result = repo.GetAllDataSets();
+
+            // Assert
+
+            result.Should().BeNull("должен быть null");
         }
 
         [Fact]
@@ -100,12 +119,12 @@ namespace ClusterMongoTest
             var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<IDataSet>
+            var list = new IDataSet[]
             {
                 dataSet1,
                 dataSet2,
                 dataSet3
-            }.AsEnumerable();
+            };
 
             A.CallTo(() => context.GetDataSets()).Returns(list);
 
@@ -134,12 +153,12 @@ namespace ClusterMongoTest
             var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<IDataSet>
+            var list = new IDataSet[]
             {
                 dataSet1,
                 dataSet2,
                 dataSet3
-            }.AsEnumerable();
+            };
 
             A.CallTo(() => context.GetDataSets()).Returns(list);
 
@@ -149,6 +168,36 @@ namespace ClusterMongoTest
 
             // Assert
             doGetDataSetByName.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных");
+        }
+        [Fact]
+        public void MongoDBRepositoryShouldThrowAnExceptionIfNoNullPassedAsArgumentOnGetDataSetByName()
+        {
+            // Arrange
+
+            var context = A.Fake<DBContext>();
+
+            var dataSet1 = A.Fake<IDataSet>();
+            A.CallTo(() => dataSet1.Name).Returns("DataSet1");
+            var dataSet2 = A.Fake<IDataSet>();
+            A.CallTo(() => dataSet2.Name).Returns("DataSet2");
+            var dataSet3 = A.Fake<IDataSet>();
+            A.CallTo(() => dataSet3.Name).Returns("DataSet3");
+
+            var list = new IDataSet[]
+            {
+                dataSet1,
+                dataSet2,
+                dataSet3
+            };
+
+            A.CallTo(() => context.GetDataSets()).Returns(list);
+
+            DBRepository repo = new DBRepository(context);
+
+            Action doGetDataSetByName = () => repo.GetDataSetByName(null);
+
+            // Assert
+            doGetDataSetByName.ShouldThrow<ArgumentNullException>("передан null в качестве параметра");
         }
 
         [Fact]
@@ -161,16 +210,17 @@ namespace ClusterMongoTest
             var dataSet1 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet1.Name).Returns("DataSet1");
             var dataSet2 = A.Fake<IDataSet>();
-            A.CallTo(() => dataSet2.Name).Returns("DataSet1");
+            A.CallTo(() => dataSet2.Name).Returns("DataSet2");
             var dataSet3 = A.Fake<IDataSet>();
             A.CallTo(() => dataSet3.Name).Returns("DataSet3");
 
-            var list = new List<IDataSet>
+            var list = new IDataSet[]
             {
                 dataSet1,
                 dataSet2,
-                dataSet3
-            }.AsEnumerable();
+                dataSet3,
+                dataSet1
+            };
 
             A.CallTo(() => context.GetDataSets()).Returns(list);
 

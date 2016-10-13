@@ -27,6 +27,11 @@ namespace ClusterMongo
 
         public IDataSet GetDataSetByName(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name)); 
+            }
+
             var result = context.GetDataSets().Where(x => x.Name == name);
 
             if (result.Count() == 0)
