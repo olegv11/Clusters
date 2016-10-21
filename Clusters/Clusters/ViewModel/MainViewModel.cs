@@ -1,6 +1,9 @@
 using ClusterDomain;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
 using System.Collections.Generic;
 
 namespace Clusters.ViewModel
@@ -37,6 +40,22 @@ namespace Clusters.ViewModel
         }
 
         #region Properties
+
+
+        private SeriesCollection clusteredData;
+
+        public SeriesCollection ClusteredData
+        {
+            get { return clusteredData; }
+            set
+            {
+                if (clusteredData != value)
+                {
+                    clusteredData = value;
+                    RaisePropertyChanged(nameof(ClusteredData));
+                }
+            }
+        }
 
         private double xInput;
         public double XInput
@@ -119,12 +138,43 @@ namespace Clusters.ViewModel
         private void AddPoint()
         {
             points.Add(new DataPoint(XInput, YInput));
+            ClusteredData = SeriesCollectionFromIEnumerable(points);
         }
 
 
         private void Clusterise()
         {
 
+        }
+
+
+        private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<IEnumerable<DataPoint>> src)
+        {
+            var collection = new SeriesCollection();
+            foreach(var cluster in src)
+            {
+                collection.Add(ScatterSeriesFromIEnumerable(cluster));
+            }
+            return collection;
+        }
+
+        private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<DataPoint> src)
+        {
+            var collection = new SeriesCollection();
+            collection.Add(ScatterSeriesFromIEnumerable(src));
+            return collection;
+        }
+
+        private ScatterSeries ScatterSeriesFromIEnumerable(IEnumerable<DataPoint> src)
+        {
+            var series = new ScatterSeries();
+            series.MaxPointShapeDiameter = 10;
+            series.Values = new ChartValues<ScatterPoint>();
+            foreach(var el in src)
+            {
+                series.Values.Add(new ScatterPoint(el.X, el.Y));
+            }
+            return series;
         }
 
         #endregion
