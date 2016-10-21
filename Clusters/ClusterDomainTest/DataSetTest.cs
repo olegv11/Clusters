@@ -50,9 +50,9 @@ namespace ClusterDomainTest
             // Arrange
             IEnumerable<DataPoint> enumerable = new List<DataPoint>
             {
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
             };
             
 
@@ -68,7 +68,7 @@ namespace ClusterDomainTest
         public void DataSetShouldAddElement()
         {
             // Arrange
-            var point = A.Fake<DataPoint>();
+            var point = A.Dummy<DataPoint>();
             var dataSet = new DataSet();
 
             // Act
@@ -85,9 +85,9 @@ namespace ClusterDomainTest
             // Arrange
             IEnumerable<DataPoint> enumerable = new List<DataPoint>
             {
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
             };
             var dataSet = new DataSet();
 
@@ -102,8 +102,8 @@ namespace ClusterDomainTest
         public void DataSetShouldDetermineIfItHasElement()
         {
             // Arrange
-            var pointIn = A.Fake<DataPoint>();
-            var pointOut = A.Fake<DataPoint>();
+            var pointIn = A.Dummy<DataPoint>();
+            var pointOut = A.Dummy<DataPoint>();
             var dataSet = new DataSet();
 
             // Act

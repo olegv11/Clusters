@@ -32,8 +32,8 @@ namespace ClusterDomainTest
         public static IEnumerable<DataPoint[]> GetPointsWithNull => new[]
         {
             new DataPoint[] {null, null},
-            new DataPoint[] {A.Fake<DataPoint>(), null},
-            new DataPoint[] {null, A.Fake<DataPoint>()},
+            new DataPoint[] {A.Dummy<DataPoint>(), null},
+            new DataPoint[] {null, A.Dummy<DataPoint>()},
         };
 
         [Theory, MemberData(nameof(GetPointsWithNull))]

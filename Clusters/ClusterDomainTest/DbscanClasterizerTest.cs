@@ -15,13 +15,13 @@ namespace ClusterDomainTest
         public void DbscanClasterizerShouldDetectNoise()
         {
             // Arrange
-            var noisePoint = A.Fake<DataPoint>();
+            var noisePoint = A.Dummy<DataPoint>();
 
             var list = new HashSet<DataPoint>
             {
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
                 noisePoint,
             };
             var dataset = new DataSet(list);
@@ -53,17 +53,17 @@ namespace ClusterDomainTest
             // Arrange
             var cluster1 = new HashSet<DataPoint>
             {
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
             };
 
             var cluster2 = new HashSet<DataPoint>
             {
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
-                A.Fake<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
+                A.Dummy<DataPoint>(),
             };
 
             DbscanClasterizer clasterizer = new DbscanClasterizer(5, 2);
