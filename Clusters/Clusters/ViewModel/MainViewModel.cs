@@ -136,7 +136,7 @@ namespace Clusters.ViewModel
 
         #endregion
 
-        #region Commands
+    #region Commands
 
         private RelayCommand addPointCommand;
         public RelayCommand AddPointCommand
@@ -186,7 +186,11 @@ namespace Clusters.ViewModel
 
             var clusters = SeriesCollectionFromIEnumerable(clustered_data.Select(x => x.Points));
 
-            ClusteredData = clusters;
+            var noise = ScatterSeriesFromIEnumerable(clusterizer.GetNoise().Points);
+
+            clusters.Add(noise);
+
+            ClusteredData = clusters;   
         }
 
         #endregion
