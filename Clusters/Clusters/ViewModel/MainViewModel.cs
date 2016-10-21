@@ -136,7 +136,7 @@ namespace Clusters.ViewModel
 
         #endregion
 
-    #region Commands
+        #region Commands
 
         private RelayCommand addPointCommand;
         public RelayCommand AddPointCommand
@@ -186,11 +186,11 @@ namespace Clusters.ViewModel
 
             var clusters = SeriesCollectionFromIEnumerable(clustered_data.Select(x => x.Points));
 
-            var noise = ScatterSeriesFromIEnumerable(clusterizer.GetNoise().Points);
+            var noise = ScatterSeriesWithTitleFromIEnumerable(clusterizer.GetNoise().Points, "Шум");
 
             clusters.Add(noise);
 
-            ClusteredData = clusters;   
+            ClusteredData = clusters;
         }
 
         #endregion
@@ -200,9 +200,11 @@ namespace Clusters.ViewModel
         private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<IEnumerable<DataPoint>> src)
         {
             var collection = new SeriesCollection();
+            int i = 1;
             foreach(var cluster in src)
             {
-                collection.Add(ScatterSeriesFromIEnumerable(cluster));
+                collection.Add(ScatterSeriesWithTitleFromIEnumerable(cluster, string.Format("Кластер {0}", i)));
+                i++;
             }
             return collection;
         }
@@ -210,7 +212,7 @@ namespace Clusters.ViewModel
         private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<DataPoint> src)
         {
             var collection = new SeriesCollection();
-            collection.Add(ScatterSeriesFromIEnumerable(src));
+            collection.Add(ScatterSeriesWithTitleFromIEnumerable(src, "Точки"));
             return collection;
         }
 
@@ -226,6 +228,18 @@ namespace Clusters.ViewModel
             return series;
         }
 
+        private ScatterSeries ScatterSeriesWithTitleFromIEnumerable(IEnumerable<DataPoint> src, string title)
+        {
+            var series = new ScatterSeries();
+            series.Title = title;
+            series.MaxPointShapeDiameter = 10;
+            series.Values = new ChartValues<ScatterPoint>();
+            foreach (var el in src)
+            {
+                series.Values.Add(new ScatterPoint(el.X, el.Y));
+            }
+            return series;
+        }
 
         private Metric MetricForIndex(int idx)
         {

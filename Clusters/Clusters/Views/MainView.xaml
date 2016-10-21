@@ -18,7 +18,8 @@
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
 
-        <lvc:CartesianChart Grid.Row="0" LegendLocation="Left" Series="{Binding ClusteredData}" />
+        <lvc:CartesianChart Grid.Row="0" LegendLocation="Left" Series="{Binding ClusteredData}" >
+        </lvc:CartesianChart>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
