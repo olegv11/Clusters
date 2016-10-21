@@ -50,17 +50,31 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding ClusteriseCommand}"/>
+            <Button Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding ClusteriseCommand}">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=MPVBox, Path=(Validation.HasError)}" Value="false" >
+                                <Setter Property="IsEnabled" Value="true" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=MSBox, Path=(SelectedIndex)}" Value="1" >
+                                <Setter Property="IsEnabled" Value="true" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBViewCommand}" />
 
             <StackPanel Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Выбор метрики" />
-                <ComboBox Grid.Column="4" Grid.Row="0" ItemsSource="{Binding Metics}" SelectedIndex="{Binding SelectedMetricIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox x:Name="MSBox" Grid.Column="4" Grid.Row="0" ItemsSource="{Binding Metics}" SelectedIndex="{Binding SelectedMetricIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <StackPanel Grid.Column="4" Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding MetricParameterShuoldBeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Label Content="{Binding MetricParameterName}" />
-                <TextBox DockPanel.Dock="Right">
+                <TextBox DockPanel.Dock="Right" Name="MPVBox">
                     <TextBox.Text>
                         <Binding Path="MetricParameterValue" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
                             <Binding.ValidationRules>

@@ -5,6 +5,7 @@ using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Clusters.ViewModel
 {
@@ -37,9 +38,29 @@ namespace Clusters.ViewModel
             ////}
 
             points = new List<DataPoint>();
+            SelectedMetricIndex = 0;
+            MetricParameterValue = 2;
+            SetMetricParameterVisibility();
         }
 
         #region Properties
+
+        public List<string> Metics { get; } = new List<string> { "p-норма", "супремум-норма" };
+
+        private int selectedMetricIndex;
+        public int SelectedMetricIndex
+        {
+            get { return selectedMetricIndex; }
+            set
+            {
+                if (selectedMetricIndex != value)
+                {
+                    selectedMetricIndex = value;
+                    SetMetricParameterVisibility();
+                    RaisePropertyChanged(nameof(SelectedMetricIndex));
+                }
+            }
+        }
 
 
         private SeriesCollection clusteredData;
@@ -99,6 +120,19 @@ namespace Clusters.ViewModel
             }
         }
 
+        private bool metricParameterShuoldBeVisible;
+        public bool MetricParameterShuoldBeVisible
+        {
+            get { return metricParameterShuoldBeVisible; }
+            set
+            {
+                if (metricParameterShuoldBeVisible != value)
+                {
+                    metricParameterShuoldBeVisible = value;
+                    RaisePropertyChanged(nameof(MetricParameterShuoldBeVisible));
+                }
+            }
+        }
 
         #endregion
 
@@ -132,8 +166,7 @@ namespace Clusters.ViewModel
 
         #endregion
 
-
-        #region Private Methods
+        #region Command Mathods
 
         private void AddPoint()
         {
@@ -144,9 +177,21 @@ namespace Clusters.ViewModel
 
         private void Clusterise()
         {
+            var data = new DataSet(points);
+            var clusterizer = new DbscanClasterizer(5, 3);
+            clusterizer.Clusterize(MetricForIndex(selectedMetricIndex), data);
 
+            var clustered_data = clusterizer.GetClusters();
+
+
+            var clusters = SeriesCollectionFromIEnumerable(clustered_data.Select(x => x.Points));
+
+            ClusteredData = clusters;
         }
 
+        #endregion
+
+        #region Private Methods
 
         private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<IEnumerable<DataPoint>> src)
         {
@@ -175,6 +220,35 @@ namespace Clusters.ViewModel
                 series.Values.Add(new ScatterPoint(el.X, el.Y));
             }
             return series;
+        }
+
+
+        private Metric MetricForIndex(int idx)
+        {
+            Metric m = null;
+            switch(idx)
+            {
+                case 0:
+                    m = new PNorm(metricParameterValue);
+                    break;
+                case 1:
+                    m = new SupNorm();
+                    break;
+            }
+            return m;
+        }
+
+        private void SetMetricParameterVisibility()
+        {
+            switch(selectedMetricIndex)
+            {
+                case 0:
+                    MetricParameterShuoldBeVisible = true;
+                    break;
+                case 1:
+                    MetricParameterShuoldBeVisible = false;
+                    break;
+            }
         }
 
         #endregion
