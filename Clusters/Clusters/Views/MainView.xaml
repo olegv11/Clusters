@@ -33,6 +33,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
 
             <Button Content="Добавить" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPointCommand}">
@@ -56,12 +58,22 @@
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="IsEnabled" Value="false" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ElementName=MPVBox, Path=(Validation.HasError)}" Value="false" >
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=MPVBox, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding ElementName=EPSBox, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding CanClusterise}" Value="true" />
+                                </MultiDataTrigger.Conditions>
                                 <Setter Property="IsEnabled" Value="true" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding ElementName=MSBox, Path=(SelectedIndex)}" Value="1" >
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=MSBox, Path=(SelectedIndex)}" Value="1" />
+                                    <Condition Binding="{Binding ElementName=EPSBox, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding CanClusterise}" Value="true" />
+                                </MultiDataTrigger.Conditions>
                                 <Setter Property="IsEnabled" Value="true" />
-                            </DataTrigger>
+                            </MultiDataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
@@ -110,6 +122,32 @@
                     </TextBox.Text>
                     </TextBox>
             </DockPanel>
+
+            <DockPanel Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" Margin="0,0,5,0">
+                <Label Content="ε: " />
+                <TextBox DockPanel.Dock="Right" Name="EPSBox">
+                    <TextBox.Text>
+                        <Binding Path="EpsInput" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <rules:ValueIsDoubleValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </DockPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="7" VerticalAlignment="Center" Margin="5,0,0,0">
+                <Label Content="Минимум точек: " />
+                <TextBox Name="MP">
+                    <TextBox.Text>
+                        <Binding Path="MPInput" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                            <Binding.ValidationRules>
+                                <rules:ValueIsIntegerGreaterThanOneValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

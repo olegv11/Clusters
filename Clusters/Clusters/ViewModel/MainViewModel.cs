@@ -1,4 +1,4 @@
-using ClusterDomain;
+Ôªøusing ClusterDomain;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using LiveCharts;
@@ -26,7 +26,7 @@ namespace Clusters.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDataSetFactory dataSetFactory, IClusterizerBuilder clusterizerBuilder)
         {
             ////if (IsInDesignMode)
             ////{
@@ -41,11 +41,61 @@ namespace Clusters.ViewModel
             SelectedMetricIndex = 0;
             MetricParameterValue = 2;
             SetMetricParameterVisibility();
+            MPInput = 3;
+            EpsInput = 5;
+            this.dataSetFactory = dataSetFactory;
+            this.clusterizerBuilder = clusterizerBuilder;
         }
 
         #region Properties
 
-        public List<string> Metics { get; } = new List<string> { "p-ÌÓÏ‡", "ÒÛÔÂÏÛÏ-ÌÓÏ‡" };
+        private double epsInput;
+
+        public double EpsInput
+        {
+            get { return epsInput; }
+            set
+            {
+                if (epsInput != value)
+                {
+                    epsInput = value;
+                    RaisePropertyChanged(nameof(EpsInput));
+                }
+            }
+        }
+
+        private int mpInput;
+
+        public int MPInput
+        {
+            get { return mpInput; }
+            set
+            {
+                if (mpInput != value)
+                {
+                    mpInput = value;
+                    UpdateCanClusterise();
+                    RaisePropertyChanged(nameof(MPInput));
+                }
+            }
+        }
+
+        public bool canClusterise;
+
+        public bool CanClusterise
+        {
+            get { return canClusterise; }
+            set
+            {
+                if (canClusterise != value)
+                {
+                    canClusterise = value;
+                    RaisePropertyChanged(nameof(CanClusterise));
+                }
+            }
+        }
+
+        public List<string> Metics { get; } = new List<string> { "p-–º–µ—Ç—Ä–∏–∫–∞", "—Å—É–ø—Ä–µ–º—É–º-–º–µ—Ç—Ä–∏–∫–∞" };
 
         private int selectedMetricIndex;
         public int SelectedMetricIndex
@@ -172,13 +222,16 @@ namespace Clusters.ViewModel
         {
             points.Add(new DataPoint(XInput, YInput));
             ClusteredData = SeriesCollectionFromIEnumerable(points);
+            UpdateCanClusterise();
         }
 
 
         private void Clusterise()
         {
-            var data = new DataSet(points);
-            var clusterizer = new DbscanClasterizer(5, 3);
+            var data = dataSetFactory.DataSetFromIEnumarableOfPoints(points);
+            clusterizerBuilder["minPoints"] = MPInput;
+            clusterizerBuilder["epsilon"] = EpsInput;
+            var clusterizer = clusterizerBuilder.Build();
             clusterizer.Clusterize(MetricForIndex(selectedMetricIndex), data);
 
             var clustered_data = clusterizer.GetClusters();
@@ -186,7 +239,7 @@ namespace Clusters.ViewModel
 
             var clusters = SeriesCollectionFromIEnumerable(clustered_data.Select(x => x.Points));
 
-            var noise = ScatterSeriesWithTitleFromIEnumerable(clusterizer.GetNoise().Points, "ÿÛÏ");
+            var noise = ScatterSeriesWithTitleFromIEnumerable(clusterizer.GetNoise().Points, "–®—É–º");
 
             clusters.Add(noise);
 
@@ -203,7 +256,7 @@ namespace Clusters.ViewModel
             int i = 1;
             foreach(var cluster in src)
             {
-                collection.Add(ScatterSeriesWithTitleFromIEnumerable(cluster, string.Format(" Î‡ÒÚÂ {0}", i)));
+                collection.Add(ScatterSeriesWithTitleFromIEnumerable(cluster, string.Format("–ö–ª–∞—Å—Ç–µ—Ä {0}", i)));
                 i++;
             }
             return collection;
@@ -212,7 +265,7 @@ namespace Clusters.ViewModel
         private SeriesCollection SeriesCollectionFromIEnumerable(IEnumerable<DataPoint> src)
         {
             var collection = new SeriesCollection();
-            collection.Add(ScatterSeriesWithTitleFromIEnumerable(src, "“Ó˜ÍË"));
+            collection.Add(ScatterSeriesWithTitleFromIEnumerable(src, "–¢–æ—á–∫–∏"));
             return collection;
         }
 
@@ -269,12 +322,19 @@ namespace Clusters.ViewModel
             }
         }
 
+        private void UpdateCanClusterise()
+        {
+            CanClusterise = points.Count >= MPInput;
+        }
+
         #endregion
 
 
         #region Private Fields
 
         private List<DataPoint> points;
+        IDataSetFactory dataSetFactory;
+        IClusterizerBuilder clusterizerBuilder;
 
         #endregion
     }

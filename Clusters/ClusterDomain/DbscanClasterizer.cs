@@ -17,7 +17,7 @@ namespace ClusterDomain
             this.minPoints = minPoints;
         }
 
-        public void Clusterize(Metric metric, DataSet dataSet)
+        public void Clusterize(Metric metric, IDataSet dataSet)
         {
             if (metric == null) throw new ArgumentNullException(nameof(metric));
             if (dataSet == null) throw new ArgumentNullException(nameof(dataSet));
@@ -102,6 +102,6 @@ namespace ClusterDomain
         private readonly double minPoints;
 
         private Metric currentMetric;
-        private DataSet currentDataSet;
+        private IDataSet currentDataSet;
     }
 }

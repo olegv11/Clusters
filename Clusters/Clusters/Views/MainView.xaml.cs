@@ -23,7 +23,6 @@ namespace Clusters.Views
         public MainView()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
     }
 }

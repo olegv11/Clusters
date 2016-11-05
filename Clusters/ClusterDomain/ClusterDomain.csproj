@@ -36,9 +36,13 @@
     <Compile Include="Clusterizer.cs" />
     <Compile Include="DataPoint.cs" />
     <Compile Include="DataSet.cs" />
+    <Compile Include="DataSetFactory.cs" />
     <Compile Include="DataSetRepository.cs" />
     <Compile Include="DbscanClasterizer.cs" />
+    <Compile Include="DbscanClusterizerBuilder.cs" />
+    <Compile Include="IClusterizerBuilder.cs" />
     <Compile Include="IDataSet.cs" />
+    <Compile Include="IDataSetFactory.cs" />
     <Compile Include="Metric.cs" />
     <Compile Include="PNorm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
