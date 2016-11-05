@@ -74,9 +74,9 @@ namespace AcceptanceTests
         [Xunit.TheoryAttribute()]
         [Xunit.TraitAttribute("FeatureTitle", "Clusterization")]
         [Xunit.TraitAttribute("Description", "Succesful Clusterization")]
-        [Xunit.InlineDataAttribute("{(0;0),(1;0),(0.5;0.1),(-1;-0.2),(10;10),(10.2;9.9),(11.1;10), (100;100); (-10;10" +
-            ")}", "2", "2", "LP(2)", "{(0;0),(1;0),(0.5;0.1),(-1;-0.2)}, {(10;10),(10.2;9.9),(11.1;10)}", "{(100;100); (-10;10)}", new string[0])]
-        [Xunit.InlineDataAttribute("{(1;1)}, (5;5), (7;7)}", "2", "1", "Sup", "{}", "{(1;1)}, (5;5), (7;7)}", new string[0])]
+        [Xunit.InlineDataAttribute("{(0;0),(1;0),(0.5;0.1),(-1;-0.2),(10;10),(10.2;9.9),(11.1;10),(100;100),(-10;10)}" +
+            "", "2", "2", "LP(2)", "[{(0;0),(1;0),(0.5;0.1),(-1;-0.2)},{(10;10),(10.2;9.9),(11.1;10)}]", "{(100;100),(-10;10)}", new string[0])]
+        [Xunit.InlineDataAttribute("{(1;1),(5;5),(7;7)}", "2", "1", "Sup", "[]", "{(1;1),(5;5),(7;7)}", new string[0])]
         public virtual void SuccesfulClusterization(string points, string numPoints, string epsilon, string metric, string clusters, string noise, string[] exampleTags)
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Succesful Clusterization", exampleTags);
