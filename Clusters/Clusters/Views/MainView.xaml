@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="150" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="Добавить" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPointCommand}">
+            <Button Name="AddPointButton" Content="Добавить" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding AddPointCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="IsEnabled" Value="false" />
@@ -53,7 +53,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding ClusteriseCommand}">
+            <Button Name="ClusterizeButton" Content="Кластеризовать" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Command="{Binding ClusteriseCommand}">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="IsEnabled" Value="false" />
@@ -78,7 +78,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBViewCommand}" />
+            <Button x:Name="DbButton" Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBViewCommand}" />
 
             <StackPanel Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Выбор метрики" />

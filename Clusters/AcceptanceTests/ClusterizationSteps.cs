@@ -16,56 +16,63 @@ namespace AcceptanceTests
     [Binding]
     public class ClusterizationSteps
     {
-        private string metric;
-        private int minPoints;
-        private double epsilon;
-        private double p;
+        private UiMap map;
 
         private List<Tuple<double, double>> inputPoints;
         private List<List<Tuple<double, double>>> resultClusters;
         private List<Tuple<double, double>> resultNoise;
 
+        [Given(@"I started application")]
+        public void GivenIStartedApplication()
+        {
+            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            path = Path.Combine(path, @"Clusters\bin\Debug\", "Clusters.exe");
+
+            map = new UiMap(path);
+        }
 
         [Given(@"I entered points \{(.*)\}")]
         public void GivenIEnteredPoints(string points)
         {
             inputPoints = GetListOfPoints(points);
+            foreach (var p in inputPoints)
+            {
+                map.EnterPX(p.Item1);
+                map.EnterPY(p.Item2);
+                map.PressAddPoint();
+                map.WaitWhileBusy();
+            }
         }
         
         [Given(@"I entered minimal number of points (.*)")]
         public void GivenIEnteredMinimalNumberOfPoints(int minPoints)
         {
-            this.minPoints = minPoints;
+            map.EnterMinPoints(minPoints);
         }
         
         [Given(@"I entered epsilon (.*)")]
         public void GivenIEnteredEpsilon(double eps)
         {
-            this.epsilon = eps;
+            map.EnterEps(eps);
         }
         
         [Given(@"I chose metric LP\((.*)\)")]
         public void GivenIChoseMetricLP(double p)
         {
-            metric = "PNorm";
-            this.p = p;
+            map.ChooseLpMetric();
+            map.EnterP(p);
         }
 
         [Given(@"I chose metric Sup")]
         public void GivenIChoseMetricSup()
         {
-            metric = "SupNorm";
+            map.ChooseSupMetric();
         }
 
         [When(@"I pressed clusterize")]
         public void WhenIPressedClusterize()
         {
-            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            path = Path.Combine(path, @"Clusters\bin\Debug\", "Clusters.exe");
-            Application app = Application.Launch(path);
-            Window mainWindow = app.GetWindow("Кластеризатор 3.0");
-            Thread.Sleep(500);
-            app.Close();
+            map.PressClusterize();
         }
         
         [Then(@"There must be clusters \[(.*)] and noise \{(.*)\}")]
@@ -73,6 +80,7 @@ namespace AcceptanceTests
         {
             resultClusters = GetListOfClusters(clusterString).Select(GetListOfPoints).ToList();
             resultNoise = GetListOfPoints(noiseString);
+            Thread.Sleep(10000);
         }
 
         public List<string> GetListOfClusters(string s)
@@ -104,6 +112,12 @@ namespace AcceptanceTests
             }
 
             return result;
+        }
+
+        [AfterScenario]
+        public void CloseApplication()
+        {
+            map.Close();
         }
     }
 }

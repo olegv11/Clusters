@@ -2,7 +2,8 @@
 	Кластеризация точек, введённых на графике
 
 Scenario Outline: Succesful Clusterization
-	Given I entered points <points>
+	Given I started application
+	And I entered points <points>
 	And I entered minimal number of points <numPoints>
 	And I entered epsilon <epsilon>
 	And I chose metric <metric>
