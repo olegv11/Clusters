@@ -7,11 +7,11 @@ namespace ClusterMongo
 {
     public class MongoDBContext : DBContext
     {
-        public MongoDBContext(string connectionString, string databaseName)
+        public MongoDBContext(string connectionString, string databaseName, string collectionName)
         {
             var client = new MongoClient(connectionString);
             var database = client.GetDatabase(databaseName);
-            DataSet = database.GetCollection<IDataSet>("DataSet");
+            DataSet = database.GetCollection<IDataSet>(collectionName);
         }
 
         public void SaveDataSet(IDataSet dataSet)

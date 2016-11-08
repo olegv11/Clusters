@@ -5,6 +5,8 @@ namespace ClusterDomain
 {
     public class DataSet : IDataSet
     {
+        public int Id { get; private set; }
+
         public DataSet()
         {
             Data = new HashSet<DataPoint>();
