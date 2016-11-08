@@ -8,5 +8,6 @@ namespace ClusterDomain
         IDataSet GetDataSetByName(string name);
         void SaveDataSet(IDataSet dataSet);
         void DeleteDataSet(string name);
+        void DeleteAllDataSets();
     }
 }

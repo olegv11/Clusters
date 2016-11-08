@@ -5,10 +5,10 @@ namespace ClusterDomain
 {
     public class DataSet : IDataSet
     {
-        public int Id { get; private set; }
-
+        public Guid Id { get; private set; }
         public DataSet()
         {
+            Id = Guid.NewGuid();
             Data = new HashSet<DataPoint>();
         }
 

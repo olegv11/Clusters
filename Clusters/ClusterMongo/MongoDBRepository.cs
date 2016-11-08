@@ -30,12 +30,16 @@ namespace ClusterMongo
         {
             if (name == null)
             {
-                throw new ArgumentNullException(nameof(name)); 
+                throw new ArgumentNullException(nameof(name));
+            }
+            if (context.GetDataSets().Count() == 0)
+            {
+                throw new MongoDBException("Не найдено подходящего набора данных");
             }
 
             var result = context.GetDataSets().Where(x => x.Name == name);
 
-            if (result.Count() == 0)
+            if ((result == null) || (result.Count() == 0))
             {
                 throw new MongoDBException("Не найдено подходящего набора данных");
             }
@@ -55,6 +59,7 @@ namespace ClusterMongo
             {
                 throw new ArgumentNullException(nameof(item));
             }
+            
             context.SaveDataSet(item);
         }
 
@@ -65,6 +70,11 @@ namespace ClusterMongo
                 throw new ArgumentNullException(nameof(name));
             }
             context.DeleteDataSet(name);
+        }
+
+        public void DeleteAllDataSets()
+        {
+            context.DeleteAllDataSets();
         }
     }
 }

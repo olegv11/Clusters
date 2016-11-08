@@ -9,5 +9,6 @@ namespace ClusterMongo
         IEnumerable<IDataSet> GetDataSets();
         void SaveDataSet(IDataSet dataSet);
         void DeleteDataSet(string name);
+        void DeleteAllDataSets();
     }
 }

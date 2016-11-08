@@ -5,7 +5,7 @@ namespace ClusterDomain
 {
     public interface IDataSet
     {
-        int Id { get; }
+        Guid Id { get; }
         DateTime CreationTime { get; set; }
         HashSet<DataPoint> Data { get; }
         string Name { get; set; }
