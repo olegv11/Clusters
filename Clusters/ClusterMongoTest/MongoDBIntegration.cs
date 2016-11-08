@@ -56,13 +56,35 @@ namespace ClusterMongoTest
             repo.DeleteAllDataSets();
 
             repo.SaveDataSet(dataSet1);
-            
+
             // Act
             Action result = () => repo.GetDataSetByName(dataSet1.Name);
 
             // Assert
             result.ShouldNotThrow("корректное добавление записи");
             repo.GetDataSetByName(dataSet1.Name).Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
+        }
+
+        [Fact]
+        public void MongoDBRepositoryShouldThrowAnExceptionWhenGettingNonexistantDataSet()
+        {
+            // Arrange
+            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            DBRepository repo = kernel.Get<DBRepository>();
+
+            var dataSet1 = new DataSet();
+            dataSet1.Name = "DataSet1";
+
+            // Let's hope that it works
+            repo.DeleteAllDataSets();
+
+            repo.SaveDataSet(dataSet1);
+
+            // Act
+            Action result = () => repo.GetDataSetByName("DataSetABABA");
+
+            // Assert
+            result.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных", "запись отсутсвует в БД");
         }
 
         [Fact]
@@ -140,6 +162,28 @@ namespace ClusterMongoTest
 
             result.ShouldNotThrow("удаление должно быть успешно");
             repo.GetAllDataSets().Where(p => p.Name == dataSet1.Name).Count().ShouldBeEquivalentTo(0, "данная запись должна быть удалена");
+        }
+
+        [Fact]
+        public void MongoDBRepositoryShouldThrowOnAttemptToDeleteNonexistantEntry()
+        {
+            // Arrange
+            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            DBRepository repo = kernel.Get<DBRepository>();
+
+            repo.DeleteAllDataSets();
+
+            var dataSet1 = new DataSet();
+            dataSet1.Name = "DataSet1";
+
+            repo.SaveDataSet(dataSet1);
+
+            // Act
+            Action result = () => repo.DeleteDataSet("DataSet2");
+
+            // Assert
+
+            result.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных", "удаляемая запись отсутствует");
         }
     }
 }

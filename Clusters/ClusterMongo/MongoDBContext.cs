@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Driver;
 using ClusterDomain;
-using MongoDB.Driver.Linq;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ClusterMongo
 {
@@ -25,16 +23,12 @@ namespace ClusterMongo
             
             if (count == 0)
             {
-                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet).Wait();
+                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet);
             }
             else if(count == 1)
             {
-                //var update = Builders<IDataSet>.Update
-                //    .Set("Data", dataSet.Data)
-                //    .Set("CreationTime", dataSet.CreationTime);
-                //Db.GetCollection<IDataSet>(CollectionName).FindOneAndUpdateAsync(filter, update).Wait();
-                Db.GetCollection<IDataSet>(CollectionName).DeleteOneAsync(filter).Wait();
-                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet).Wait();
+                Db.GetCollection<IDataSet>(CollectionName).DeleteOne(filter);
+                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet);
             }
             else
             {
@@ -47,19 +41,29 @@ namespace ClusterMongo
         {
             var filter = Builders<IDataSet>.Filter
                 .Eq("Name", name);
-            Db.GetCollection<IDataSet>(CollectionName).DeleteOneAsync(filter).Wait();
+            var count = Db.GetCollection<IDataSet>(CollectionName).Find(filter).Count();
+            if (count == 0)
+            {
+                throw new MongoDBException("Не найдено подходящего набора данных");
+            }
+            else if (count == 1)
+            {
+                Db.GetCollection<IDataSet>(CollectionName).DeleteOneAsync(filter);
+            }
+            else
+            {
+                throw new MongoDBException("Найден повтор в базе данных");
+            }
         }
 
         public IEnumerable<IDataSet> GetDataSets()
         {
-            var result = Db.GetCollection<IDataSet>(CollectionName).FindAsync(p => true);
-            result.Wait();
-            return result.Result.ToList();
+            return Db.GetCollection<IDataSet>(CollectionName).FindAsync(p => true).Result.ToList();
         }
 
         public void DeleteAllDataSets()
         {
-            Db.GetCollection<IDataSet>(CollectionName).DeleteManyAsync(prop => true).Wait();
+            Db.GetCollection<IDataSet>(CollectionName).DeleteManyAsync(prop => true);
         } 
 
         private IMongoDatabase Db { set; get; }
