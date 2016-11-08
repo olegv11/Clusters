@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using ClusterDomain;
 using System;
+using Ninject;
 
 namespace ClusterMongo
 {
     public class DBRepository : DataSetRepository
     {
         private DBContext context;
-
+        
         public DBRepository(DBContext initContext)
         {
             if(initContext == null)

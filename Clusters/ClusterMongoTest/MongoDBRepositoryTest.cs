@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ClusterDomain;
+﻿using ClusterDomain;
 using ClusterMongo;
 using Xunit;
 using FakeItEasy;
