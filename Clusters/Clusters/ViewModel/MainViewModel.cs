@@ -6,6 +6,7 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Ninject;
 
 namespace Clusters.ViewModel
@@ -263,6 +264,19 @@ namespace Clusters.ViewModel
             }
         }
 
+        private RelayCommand showresultcommand;
+        public RelayCommand ShowResultCommand
+        {
+            get
+            {
+                if (showresultcommand == null)
+                {
+                    showresultcommand = new RelayCommand(ShowResult);
+                }
+                return showresultcommand;
+            }
+        }
+
         #endregion
 
         #region Command Methods
@@ -322,6 +336,13 @@ namespace Clusters.ViewModel
             clusters.Add(noise);
 
             ClusteredData = clusters;
+        }
+
+        private void ShowResult()
+        {
+            string r = MakeResultString();
+
+
         }
 
         #endregion
@@ -403,6 +424,34 @@ namespace Clusters.ViewModel
         private void UpdateCanClusterise()
         {
             CanClusterise = points.Count >= MPInput;
+        }
+
+        private string MakeResultString()
+        {
+            if (ClusteredData == null || ClusteredData.Count == 0)
+            {
+                return "Ничего не введено";
+            }
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < ClusteredData.Count - 1; i++)
+            {
+                sb.Append($"Кластер {i + 1}: {{");
+                foreach (ScatterPoint p in ClusteredData[i].Values)
+                {
+                    sb.Append($"({p.X},{p.Y})");
+                }
+                sb.Append("}\n");
+            }
+
+            sb.Append("Шум: {");
+            foreach (ScatterPoint p in ClusteredData[ClusteredData.Count - 1].Values)
+            {
+                sb.Append($"({p.X},{p.Y})");
+            }
+            sb.Append("}\n");
+
+            return sb.ToString();
         }
 
         #endregion

@@ -155,6 +155,7 @@
                 <TextBox Name="TName" Text="{Binding DataSetName, Mode=TwoWay}">
                 </TextBox>
             </StackPanel>
+            <Button x:Name="resultBtn" Content="Результат" Grid.Column="1" HorizontalAlignment="Left" Margin="10,38,0,0" Grid.Row="1" VerticalAlignment="Top" Width="76"  Command="{Binding ShowResultCommand}"/>
         </Grid>
     </Grid>
 </Window>
