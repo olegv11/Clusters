@@ -27,10 +27,9 @@ namespace Clusters
 
         private void ConfigureContainer()
         {
-            this.Container = new StandardKernel();
+            this.Container = new StandardKernel(new ClusterMongo.NinjectDatabaseContextModule());
             Container.Bind<IDataSetFactory>().To<DataSetFactory>().InTransientScope();
             Container.Bind<IClusterizerBuilder>().To<DbscanClusterizerBuilder>().InTransientScope();
-            Container.Load(new ClusterMongo.NinjectDatabaseContextModule());
             Container.Bind<DataSetRepository>().To<ClusterMongo.DBRepository>();
         }
 
