@@ -49,7 +49,11 @@ namespace ClusterMongoTest
             IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
-            var dataSet1 = new DataSet();
+            var dataSet1 = new DataSet(new HashSet<DataPoint>
+            {
+                new DataPoint(1, 2),
+                new DataPoint(2, 2),
+            });
             dataSet1.Name = "DataSet1";
 
             // Let's hope that it works
@@ -62,7 +66,9 @@ namespace ClusterMongoTest
 
             // Assert
             result.ShouldNotThrow("корректное добавление записи");
-            repo.GetDataSetByName(dataSet1.Name).Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
+            var returned = repo.GetDataSetByName(dataSet1.Name);
+            returned.Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
+            returned.Data.ShouldBeEquivalentTo(dataSet1.Data);
         }
 
         [Fact]
