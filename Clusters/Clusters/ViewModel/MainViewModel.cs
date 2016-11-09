@@ -6,6 +6,7 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.Linq;
+using Ninject;
 
 namespace Clusters.ViewModel
 {
@@ -26,7 +27,7 @@ namespace Clusters.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataSetFactory dataSetFactory, IClusterizerBuilder clusterizerBuilder)
+        public MainViewModel(IDataSetFactory dataSetFactory, IClusterizerBuilder clusterizerBuilder, DataSetRepository dataProvider)
         {
             ////if (IsInDesignMode)
             ////{
@@ -45,6 +46,7 @@ namespace Clusters.ViewModel
             EpsInput = 5;
             this.dataSetFactory = dataSetFactory;
             this.clusterizerBuilder = clusterizerBuilder;
+            this.dataProvider = dataProvider;
         }
 
         #region Properties
@@ -188,6 +190,34 @@ namespace Clusters.ViewModel
 
         #region Commands
 
+        private RelayCommand showDatabaseCommand;
+
+        public RelayCommand ShowDatabaseCommand
+        {
+            get
+            {
+                if (showDatabaseCommand == null)
+                {
+                    showDatabaseCommand = new RelayCommand(ShowDatabase);
+                }
+                return showDatabaseCommand;
+            }
+        }
+
+        private RelayCommand saveToDB;
+
+        public RelayCommand SaveToDB
+        {
+            get
+            {
+                if (saveToDB == null)
+                {
+                    saveToDB = new RelayCommand(SavePointsToDatabase);
+                }
+                return saveToDB;
+            }
+        }
+
         private RelayCommand addPointCommand;
         public RelayCommand AddPointCommand
         {
@@ -216,7 +246,30 @@ namespace Clusters.ViewModel
 
         #endregion
 
-        #region Command Mathods
+        #region Command Methods
+
+        private void ShowDatabase()
+        {
+            var dbvm = (App.Current as App).Container.Get<DatabaseViewModel>();
+            var dbWindow = new Views.DatabaseView();
+            dbWindow.DataContext = dbvm;
+            dbWindow.ShowDialog();
+
+            var selectedDataSet = dbvm.SelectedDataSet;
+
+            if (selectedDataSet != null)
+            {
+                points = selectedDataSet.Data.ToList();
+
+                ClusteredData = SeriesCollectionFromIEnumerable(points);
+                UpdateCanClusterise();
+            }
+        }
+
+        private void SavePointsToDatabase()
+        {
+            dataProvider.SaveDataSet(dataSetFactory.DataSetFromIEnumarableOfPoints(points));
+        }
 
         private void AddPoint()
         {
@@ -335,6 +388,7 @@ namespace Clusters.ViewModel
         private List<DataPoint> points;
         IDataSetFactory dataSetFactory;
         IClusterizerBuilder clusterizerBuilder;
+        DataSetRepository dataProvider;
 
         #endregion
     }

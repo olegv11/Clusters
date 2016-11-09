@@ -149,6 +149,10 @@
       <Project>{D539023F-885E-4081-8766-07A3BB7E0C26}</Project>
       <Name>ClusterDomain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ClusterMongo\ClusterMongo.csproj">
+      <Project>{ec0b559d-761c-4bea-9225-96f82f545a27}</Project>
+      <Name>ClusterMongo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

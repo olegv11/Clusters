@@ -15,7 +15,7 @@ namespace Clusters
     /// </summary>
     public partial class App : Application
     {
-        private IKernel container;
+        public IKernel Container { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -27,15 +27,17 @@ namespace Clusters
 
         private void ConfigureContainer()
         {
-            this.container = new StandardKernel();
-            container.Bind<IDataSetFactory>().To<DataSetFactory>().InTransientScope();
-            container.Bind<IClusterizerBuilder>().To<DbscanClusterizerBuilder>().InTransientScope();
+            this.Container = new StandardKernel();
+            Container.Bind<IDataSetFactory>().To<DataSetFactory>().InTransientScope();
+            Container.Bind<IClusterizerBuilder>().To<DbscanClusterizerBuilder>().InTransientScope();
+            Container.Load(new ClusterMongo.NinjectDatabaseContextModule());
+            Container.Bind<DataSetRepository>().To<ClusterMongo.DBRepository>();
         }
 
         private void ComposeObjects()
         {
-            Current.MainWindow = this.container.Get<Views.MainView>();
-            Current.MainWindow.DataContext = this.container.Get<ViewModel.MainViewModel>();
+            Current.MainWindow = this.Container.Get<Views.MainView>();
+            Current.MainWindow.DataContext = this.Container.Get<ViewModel.MainViewModel>();
         }
     }
 

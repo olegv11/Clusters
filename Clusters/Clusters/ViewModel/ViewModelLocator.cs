@@ -43,6 +43,7 @@ namespace Clusters.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<DatabaseViewModel>();
         }
 
         public MainViewModel Main
@@ -52,10 +53,19 @@ namespace Clusters.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
+
+        public DatabaseViewModel Database
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<DatabaseViewModel>();
+            }
+        }
         
         public static void Cleanup()
         {
-            // TODO Clear the ViewModels
+            SimpleIoc.Default.Unregister<MainViewModel>();
+            SimpleIoc.Default.Unregister<DatabaseViewModel>();
         }
     }
 }

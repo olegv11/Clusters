@@ -78,7 +78,8 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button x:Name="DbButton" Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDBViewCommand}" />
+            <Button x:Name="DbButton" Content="БД" Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding ShowDatabaseCommand}" />
+            <Button Content="Сохранить в БД" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding SaveToDB}" />
 
             <StackPanel Grid.Column="4" Grid.Row="0" VerticalAlignment="Center">
                 <Label Content="Выбор метрики" />

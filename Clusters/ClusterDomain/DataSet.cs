@@ -14,6 +14,7 @@ namespace ClusterDomain
 
         public DataSet(IEnumerable<DataPoint> points)
         {
+            Id = Guid.NewGuid();
             Data = new HashSet<DataPoint>(points);
         }
 
@@ -36,6 +37,28 @@ namespace ClusterDomain
 
         public DateTime CreationTime { get; set; }
 
-        public string Name { get; set; }
+        private string customName = null;
+
+        public string Name
+        {
+            get
+            {
+                if (customName != null)
+                {
+                    return customName;
+                }
+                else
+                {
+                    return Id.ToString();
+                }
+            }
+            set
+            {
+                if (customName != value)
+                {
+                    customName = value;
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="Clusters.Views.DatabaseView"
+﻿<Window x:Name="window" x:Class="Clusters.Views.DatabaseView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +7,22 @@
         mc:Ignorable="d"
         Title="DatabaseView" Height="300" Width="300">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="1"  HorizontalAlignment="Right">
+            <Button Content="Загрузить" Width="100" Margin="5,5,5,5" Command="{Binding LoadDataSetCommand}" CommandParameter="{Binding ElementName=window, Mode=OneWay}"/>
+            <Button DockPanel.Dock="Right" Content="Удалить" Width="100"  Margin="5,5,5,5" Command="{Binding RemoveDataSetCommand}"/>
+        </DockPanel>
+
+        <ListBox Grid.Row="0" ItemsSource="{Binding LoadedDataSets}" SelectedIndex="{Binding SelectedIdx, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

@@ -23,7 +23,6 @@ namespace Clusters.Views
         public DatabaseView()
         {
             InitializeComponent();
-            DataContext = new DatabaseViewModel();
         }
     }
 }
