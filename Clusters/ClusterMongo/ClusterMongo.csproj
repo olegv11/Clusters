@@ -64,7 +64,7 @@
     <Compile Include="MongoDBException.cs" />
     <Compile Include="MongoDBContext.cs" />
     <Compile Include="MongoDBRepository.cs" />
-    <Compile Include="MongoPoint.cs" />
+    <Compile Include="MongoSet.cs" />
     <Compile Include="NInjectDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
