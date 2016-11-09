@@ -16,19 +16,20 @@ namespace ClusterMongo
 
         public void SaveDataSet(IDataSet dataSet)
         {
-            var filter = Builders<IDataSet>.Filter
-                              .Eq("Name", dataSet.Name);
+            var set = new MongoSet(dataSet);
+            var filter = Builders<MongoSet>.Filter
+                              .Eq("Name", set.Name);
 
-            long count = Db.GetCollection<IDataSet>(CollectionName).Count(filter);
+            long count = Db.GetCollection<MongoSet>(CollectionName).Count(filter);
             
             if (count == 0)
             {
-                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet);
+                Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
             }
             else if(count == 1)
             {
-                Db.GetCollection<IDataSet>(CollectionName).DeleteOne(filter);
-                Db.GetCollection<IDataSet>(CollectionName).InsertOneAsync(dataSet);
+                Db.GetCollection<MongoSet>(CollectionName).DeleteOne(filter);
+                Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
             }
             else
             {
@@ -39,16 +40,16 @@ namespace ClusterMongo
 
         public void DeleteDataSet(string name)
         {
-            var filter = Builders<IDataSet>.Filter
+            var filter = Builders<MongoSet>.Filter
                 .Eq("Name", name);
-            var count = Db.GetCollection<IDataSet>(CollectionName).Find(filter).Count();
+            var count = Db.GetCollection<MongoSet>(CollectionName).Find(filter).Count();
             if (count == 0)
             {
                 throw new MongoDBException("Не найдено подходящего набора данных");
             }
             else if (count == 1)
             {
-                Db.GetCollection<IDataSet>(CollectionName).DeleteOneAsync(filter);
+                Db.GetCollection<MongoSet>(CollectionName).DeleteOneAsync(filter);
             }
             else
             {
@@ -58,7 +59,8 @@ namespace ClusterMongo
 
         public IEnumerable<IDataSet> GetDataSets()
         {
-            return Db.GetCollection<IDataSet>(CollectionName).FindAsync(p => true).Result.ToList();
+            return Db.GetCollection<MongoSet>(CollectionName).FindAsync(p => true).Result
+                .ToList().Select(x => x.ToDataSet());
         }
 
         public void DeleteAllDataSets()
