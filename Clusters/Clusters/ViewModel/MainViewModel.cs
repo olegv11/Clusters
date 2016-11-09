@@ -44,12 +44,31 @@ namespace Clusters.ViewModel
             SetMetricParameterVisibility();
             MPInput = 3;
             EpsInput = 5;
+            DataSetName = string.Empty;
             this.dataSetFactory = dataSetFactory;
             this.clusterizerBuilder = clusterizerBuilder;
             this.dataProvider = dataProvider;
         }
 
         #region Properties
+
+        private string dataSetName;
+
+        public string DataSetName
+        {
+            get
+            {
+                return dataSetName;
+            }
+            set
+            {
+                if (dataSetName != value)
+                {
+                    dataSetName = value;
+                    RaisePropertyChanged(nameof(DataSetName));
+                }
+            }
+        }
 
         private double epsInput;
 
@@ -268,7 +287,13 @@ namespace Clusters.ViewModel
 
         private void SavePointsToDatabase()
         {
-            dataProvider.SaveDataSet(dataSetFactory.DataSetFromIEnumarableOfPoints(points));
+            var set = dataSetFactory.DataSetFromIEnumarableOfPoints(points);
+
+            if (dataSetName != string.Empty)
+            {
+                set.Name = dataSetName;
+            }
+            dataProvider.SaveDataSet(set);
         }
 
         private void AddPoint()

@@ -149,6 +149,12 @@
                     </TextBox.Text>
                 </TextBox>
             </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" Margin="5,0,0,0">
+                <Label Content="Имя сета: " />
+                <TextBox Name="TName" Text="{Binding DataSetName, Mode=TwoWay}">
+                </TextBox>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
