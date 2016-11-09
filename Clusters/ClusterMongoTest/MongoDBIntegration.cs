@@ -16,7 +16,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldBeCreated()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             // Act
             Action result = () => kernel.Get<DBRepository>();
             // Assert
@@ -27,7 +27,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldAddAndNewEntry()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             // Let's hope that it works 
@@ -46,7 +46,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldGetAddedEntry()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             var dataSet1 = new DataSet(new HashSet<DataPoint>
@@ -75,7 +75,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldThrowAnExceptionWhenGettingNonexistantDataSet()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             var dataSet1 = new DataSet();
@@ -97,7 +97,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldDeleteAllEntries()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             repo.DeleteAllDataSets();
@@ -125,7 +125,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldUpdateAnEntry()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             repo.DeleteAllDataSets();
@@ -151,7 +151,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldDeleteAnAddedEntry()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             repo.DeleteAllDataSets();
@@ -174,7 +174,7 @@ namespace ClusterMongoTest
         public void MongoDBRepositoryShouldThrowOnAttemptToDeleteNonexistantEntry()
         {
             // Arrange
-            IKernel kernel = new StandardKernel(new NinjectDatabaseContextModule());
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
             repo.DeleteAllDataSets();
