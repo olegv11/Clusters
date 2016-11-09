@@ -341,7 +341,7 @@ namespace Clusters.ViewModel
         private void ShowResult()
         {
             string r = MakeResultString();
-
+            System.Windows.MessageBox.Show(r, mbHeader);
 
         }
 
@@ -460,9 +460,10 @@ namespace Clusters.ViewModel
         #region Private Fields
 
         private List<DataPoint> points;
-        IDataSetFactory dataSetFactory;
-        IClusterizerBuilder clusterizerBuilder;
-        DataSetRepository dataProvider;
+        private IDataSetFactory dataSetFactory;
+        private IClusterizerBuilder clusterizerBuilder;
+        private DataSetRepository dataProvider;
+        private const string mbHeader = "Убер кластеры";
 
         #endregion
     }
