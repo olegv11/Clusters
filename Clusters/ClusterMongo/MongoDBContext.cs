@@ -65,7 +65,7 @@ namespace ClusterMongo
 
         public void DeleteAllDataSets()
         {
-            Db.GetCollection<IDataSet>(CollectionName).DeleteManyAsync(prop => true);
+            Db.GetCollection<MongoSet>(CollectionName).DeleteManyAsync(prop => true);
         } 
 
         private IMongoDatabase Db { set; get; }

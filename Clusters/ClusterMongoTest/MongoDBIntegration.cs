@@ -7,11 +7,19 @@ using System.Linq;
 using FluentAssertions;
 using Ninject;
 using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace ClusterMongoTest
 {
-    public class MongoDBIntegration
+    public class MongoDBIntegration : IDisposable
     {
+        public MongoDBIntegration()
+        {
+            var client = new MongoClient(@"mongodb://localhost:27017");
+            var Db = client.GetDatabase("ClustersTestDB");
+            Db.GetCollection<MongoSet>("DataSets").DeleteMany(x => true);
+        }
+
         [Fact]
         public void MongoDBRepositoryShouldBeCreated()
         {
@@ -190,6 +198,13 @@ namespace ClusterMongoTest
             // Assert
 
             result.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных", "удаляемая запись отсутствует");
+        }
+
+        public void Dispose()
+        {
+            var client = new MongoClient(@"mongodb://localhost:27017");
+            var Db = client.GetDatabase("ClustersTestDB");
+            Db.GetCollection<MongoSet>("DataSets").DeleteMany(x => true);
         }
     }
 }
