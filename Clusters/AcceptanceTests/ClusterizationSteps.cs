@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using ClusterDomain;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 using TestStack.White;
@@ -19,8 +20,6 @@ namespace AcceptanceTests
         private UiMap map;
 
         private List<Tuple<double, double>> inputPoints;
-        private List<List<Tuple<double, double>>> resultClusters;
-        private List<Tuple<double, double>> resultNoise;
 
         [Given(@"I started application")]
         public void GivenIStartedApplication()
@@ -34,7 +33,7 @@ namespace AcceptanceTests
         [Given(@"I entered points \{(.*)\}")]
         public void GivenIEnteredPoints(string points)
         {
-            inputPoints = GetListOfPoints(points);
+            inputPoints = Utility.GetListOfPoints(points);
             foreach (var p in inputPoints)
             {
                 map.EnterPX(p.Item1);
@@ -74,44 +73,25 @@ namespace AcceptanceTests
         {
             map.PressClusterize();
         }
+
+        [When(@"I pressed results")]
+        public void WhenIPressedResults()
+        {
+            map.PressResult();
+        }
         
         [Then(@"There must be clusters \[(.*)] and noise \{(.*)\}")]
         public void ThenThereMustBeClustersAndNoise(string clusterString, string noiseString)
         {
-            resultClusters = GetListOfClusters(clusterString).Select(GetListOfPoints).ToList();
-            resultNoise = GetListOfPoints(noiseString);
-            Thread.Sleep(10000);
-        }
+            var expectedClusters = Utility.GetListOfClusters(clusterString).Select(Utility.GetListOfPoints).ToList();
+            var expectedNoise = Utility.GetListOfPoints(noiseString);
+            var r = map.GetClustersAndNoise();
+            var resultClusters = r.Item1;
+            var resultNoise = r.Item2;
 
-        public List<string> GetListOfClusters(string s)
-        {
-            var result = new List<string>();
-            Regex r = new Regex(@"\{(.*?)\}");
-            var m = r.Matches(s);
-
-            for (int i = 0; i < m.Count; i++)
-            {
-                result.Add(m[i].Groups[1].Value);
-            }
-
-            return result;
-        }
-
-        public List<Tuple<double, double>> GetListOfPoints(string s)
-        {
-            var result = new List<Tuple<double, double>>();
-
-            var separated = s.Split(',');
-            Regex r = new Regex(@"\((.*);(.*)\)");
-            foreach (var pointString in separated)
-            {
-                var m = r.Matches(pointString);
-                var x = double.Parse(m[0].Groups[1].Value);
-                var y = double.Parse(m[0].Groups[2].Value);
-                result.Add(new Tuple<double, double>(x, y));
-            }
-
-            return result;
+            expectedNoise.ShouldBeEquivalentTo(resultNoise);
+            expectedClusters.All(x => resultClusters.Any(x.SequenceEqual)).Should().BeTrue();
+            map.CloseResultBox();
         }
 
         [AfterScenario]

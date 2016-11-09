@@ -99,6 +99,7 @@
     <Compile Include="ClusterizationSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UiMap.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

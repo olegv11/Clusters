@@ -5,6 +5,7 @@ using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Ninject;
@@ -439,16 +440,18 @@ namespace Clusters.ViewModel
                 sb.Append($"Кластер {i + 1}: {{");
                 foreach (ScatterPoint p in ClusteredData[i].Values)
                 {
-                    sb.Append($"({p.X},{p.Y})");
+                    sb.Append($"({p.X.ToString(CultureInfo.InvariantCulture)};{p.Y.ToString(CultureInfo.InvariantCulture)}),");
                 }
+                sb.Remove(sb.Length - 1, 1);
                 sb.Append("}\n");
             }
 
-            sb.Append("Шум: {");
+            sb.Append("Шум: {{");
             foreach (ScatterPoint p in ClusteredData[ClusteredData.Count - 1].Values)
             {
-                sb.Append($"({p.X},{p.Y})");
+                sb.Append($"({p.X.ToString(CultureInfo.InvariantCulture)};{p.Y.ToString(CultureInfo.InvariantCulture)}),");
             }
+            sb.Remove(sb.Length - 1, 1);
             sb.Append("}\n");
 
             return sb.ToString();

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TestStack.White;
 using TestStack.White.UIItems;
+using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.ListBoxItems;
 using TestStack.White.UIItems.WindowItems;
 
@@ -84,10 +86,41 @@ namespace AcceptanceTests
             btn.Click();
         }
 
+        public void PressResult()
+        {
+            var btn = mainWindow.Get<Button>("resultBtn");
+            btn.Click();
+        }
+
         public void PressDb()
         {
             var btn = mainWindow.Get<Button>("DbButton");
             btn.Click();
+        }
+
+        public Tuple<List<List<Tuple<double, double>>>, List<Tuple<double, double>>> GetClustersAndNoise()
+        {
+            var clusters = new List<List<Tuple<double, double>>>();
+            
+
+            string text = mainWindow.MessageBox("Убер кластеры").Get<Label>(SearchCriteria.Indexed(0)).Text;
+
+            Regex clusterRegex = new Regex(@"Кластер \d+: {(.*)}");
+            foreach (Match r in clusterRegex.Matches(text))
+            {
+                string line = r.Groups[1].Value;
+                clusters.Add(Utility.GetListOfPoints(line));
+            }
+
+            Regex noiseRegex = new Regex(@"Шум: (.*)");
+            var noise = Utility.GetListOfPoints(noiseRegex.Matches(text)[0].Groups[1].Value);
+
+            return new Tuple<List<List<Tuple<double, double>>>, List<Tuple<double, double>>>(clusters, noise);
+        }
+
+        public void CloseResultBox()
+        {
+            mainWindow.MessageBox("Убер кластеры").Get<Button>(SearchCriteria.Indexed(0)).Click();
         }
 
         public void WaitWhileBusy()

@@ -95,6 +95,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 10
  testRunner.When("I pressed clusterize", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
+ testRunner.And("I pressed results", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 12
  testRunner.Then(string.Format("There must be clusters {0} and noise {1}", clusters, noise), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

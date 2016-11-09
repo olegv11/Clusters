@@ -8,6 +8,7 @@ Scenario Outline: Succesful Clusterization
 	And I entered epsilon <epsilon>
 	And I chose metric <metric>
 	When I pressed clusterize
+	And I pressed results
 	Then There must be clusters <clusters> and noise <noise>
 Examples: 
 | points                                                                            | numPoints | epsilon | metric | clusters                                                           | noise                |
