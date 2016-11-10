@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ClusterDomain
 {
-    public class DataPoint : IEquatable<DataPoint>
+    public class DataPoint
     {
         public DataPoint(IEnumerable<double> values)
         {
