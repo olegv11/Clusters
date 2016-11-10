@@ -88,6 +88,20 @@ namespace Clusters.ViewModel
             }
         }
 
+        private RelayCommand removeDataSetCommand;
+
+        public RelayCommand RemoveDataSetCommand
+        {
+            get
+            {
+                if (removeDataSetCommand == null)
+                {
+                    removeDataSetCommand = new RelayCommand(RemoveSelectedDataSet);
+                }
+                return removeDataSetCommand;
+            }
+        }
+
         #endregion
 
         #region Command Methods

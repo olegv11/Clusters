@@ -86,14 +86,17 @@ namespace ClustersUITest
             }
 
             mvm.SelectedMetricIndex = 1;
+            mvm.MonitorEvents();
 
             Action result = () => mvm.ClusteriseCommand.Execute(null);
 
             result.Invoke();
+            mvm.ShouldRaisePropertyChangeFor(x => x.ClusteredData);
             mvm.ClusteredData.Count.ShouldBeEquivalentTo(3, "Разбили не 3 кластера");
-            mvm.ClusteredData[0].Values.Count.ShouldBeEquivalentTo(5, "5 в 1 кластере");
-            mvm.ClusteredData[1].Values.Count.ShouldBeEquivalentTo(5, "5 в 2 кластере");
-            mvm.ClusteredData[2].Values.Count.ShouldBeEquivalentTo(3, "3 в кластере шума");
+            mvm.ClusteredData[0].Values.Should().HaveSameCount(cluster1, "5 в 1 кластере");
+            mvm.ClusteredData[1].Values.Should().HaveSameCount(cluster2, "5 в 2 кластере");
+            mvm.ClusteredData[2].Values.Should().HaveSameCount(noise, "3 в кластере шума");
+
         }
 
 

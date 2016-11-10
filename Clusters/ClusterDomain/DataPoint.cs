@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ClusterDomain
 {
-    public class DataPoint
+    public class DataPoint : IEquatable<DataPoint>
     {
         public DataPoint(IEnumerable<double> values)
         {
@@ -37,6 +37,23 @@ namespace ClusterDomain
         public Double Y
         {
             get { return Values[1]; }
+        }
+
+        public bool Equals(DataPoint other)
+        {
+            if (other == null)
+                return false;
+            return this.Dimension == other.Dimension && this.Values.SequenceEqual(other.Values);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as DataPoint);
+        }
+
+        public override int GetHashCode()
+        {
+            return Values.GetHashCode();
         }
     }
 }
