@@ -178,6 +178,36 @@ namespace ClusterMongoTest
             result.ShouldThrow<MongoDBException>().WithMessage("Не найдено подходящего набора данных", "удаляемая запись отсутствует");
         }
 
+        // Багфикс: с e54a5b294c26cf2aab7b3e8b7081bb35f2ec78b8 по 9deab2034920f9956e5ef26cc5156d30f1dcad7f 
+        // нормально не сохранялись датасеты.
+        [Fact]
+        public void MongoDBRepositoryShouldReadWhatWasAdded()
+        {
+            // Arrange
+            IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
+            DBRepository repo = kernel.Get<DBRepository>();
+
+            var dataSet1 = new DataSet(new HashSet<DataPoint>
+            {
+                new DataPoint(1, 2),
+                new DataPoint(2, 2),
+            });
+            dataSet1.Name = "DataSet100";
+            dataSet1.CreationTime = new DateTime(1997, 2, 14).ToUniversalTime();
+
+            repo.SaveDataSet(dataSet1);
+
+            // Act
+            Action result = () => repo.GetDataSetByName(dataSet1.Name);
+
+            // Assert
+            result.ShouldNotThrow("корректное добавление записи");
+            var returned = repo.GetDataSetByName(dataSet1.Name);
+            returned.Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
+            returned.CreationTime.ShouldBeEquivalentTo(dataSet1.CreationTime, "даты должны совпадать");
+            returned.Data.ShouldBeEquivalentTo(dataSet1.Data, "данные должны совпадать");
+        }
+
         public void Dispose()
         {
             var client = new MongoClient(@"mongodb://localhost:27017");
