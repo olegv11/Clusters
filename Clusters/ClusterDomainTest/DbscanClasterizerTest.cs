@@ -15,7 +15,7 @@ namespace ClusterDomainTest
         public void DbscanClasterizerShouldDetectNoise()
         {
             // Arrange
-            var noisePoint = A.Dummy<DataPoint>();
+            var noisePoint = A.Fake<DataPoint>(x => x.WithArgumentsForConstructor(() => new DataPoint(1000, 1000)));
 
             var list = new HashSet<DataPoint>
             {
@@ -28,9 +28,14 @@ namespace ClusterDomainTest
             DbscanClasterizer clasterizer = new DbscanClasterizer(2,3);
 
             var metric = A.Fake<Metric>();
-            A.CallTo(() => metric.DistanceBetween(A<DataPoint>._, A<DataPoint>._)).Returns(0.5);
-            A.CallTo(() => metric.DistanceBetween(A<DataPoint>._, noisePoint)).Returns(1000);
-            A.CallTo(() => metric.DistanceBetween(noisePoint, A<DataPoint>._)).Returns(1000);
+
+            A.CallTo(() => metric.DistanceBetween(A<DataPoint>._, A<DataPoint>._))
+                .WithAnyArguments()
+                .Returns(0.5);
+            A.CallTo(() => metric.DistanceBetween(A<DataPoint>.That.Matches(x => x.Equals(noisePoint)), A<DataPoint>._))
+                .Returns(1000);
+            A.CallTo(() => metric.DistanceBetween(A<DataPoint>._, A<DataPoint>.That.Matches(x => x.Equals(noisePoint))))
+                .Returns(1000);
 
             // Act
             clasterizer.Clusterize(metric, dataset);
