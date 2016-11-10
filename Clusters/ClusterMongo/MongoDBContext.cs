@@ -24,12 +24,14 @@ namespace ClusterMongo
             
             if (count == 0)
             {
-                Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
+                var t = Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
+                t.Wait();
             }
             else if(count == 1)
             {
                 Db.GetCollection<MongoSet>(CollectionName).DeleteOne(filter);
-                Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
+                var t = Db.GetCollection<MongoSet>(CollectionName).InsertOneAsync(set);
+                t.Wait();
             }
             else
             {
@@ -49,7 +51,8 @@ namespace ClusterMongo
             }
             else if (count == 1)
             {
-                Db.GetCollection<MongoSet>(CollectionName).DeleteOneAsync(filter);
+                var t = Db.GetCollection<MongoSet>(CollectionName).DeleteOneAsync(filter);
+                t.Wait();
             }
             else
             {
@@ -65,7 +68,8 @@ namespace ClusterMongo
 
         public void DeleteAllDataSets()
         {
-            Db.GetCollection<MongoSet>(CollectionName).DeleteManyAsync(prop => true);
+            var t = Db.GetCollection<MongoSet>(CollectionName).DeleteManyAsync(prop => true);
+            t.Wait();
         } 
 
         private IMongoDatabase Db { set; get; }
