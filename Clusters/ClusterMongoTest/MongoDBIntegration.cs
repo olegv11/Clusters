@@ -38,8 +38,6 @@ namespace ClusterMongoTest
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
-            // Let's hope that it works 
-            repo.DeleteAllDataSets();
 
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
@@ -57,15 +55,8 @@ namespace ClusterMongoTest
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
-            var dataSet1 = new DataSet(new HashSet<DataPoint>
-            {
-                new DataPoint(1, 2),
-                new DataPoint(2, 2),
-            });
+            var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
-
-            // Let's hope that it works
-            repo.DeleteAllDataSets();
 
             repo.SaveDataSet(dataSet1);
 
@@ -74,9 +65,7 @@ namespace ClusterMongoTest
 
             // Assert
             result.ShouldNotThrow("корректное добавление записи");
-            var returned = repo.GetDataSetByName(dataSet1.Name);
-            returned.Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
-            returned.Data.ShouldBeEquivalentTo(dataSet1.Data);
+            repo.GetDataSetByName(dataSet1.Name).Name.ShouldBeEquivalentTo(dataSet1.Name, "записи должны совпадать");
         }
 
         [Fact]
@@ -88,9 +77,6 @@ namespace ClusterMongoTest
 
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
-
-            // Let's hope that it works
-            repo.DeleteAllDataSets();
 
             repo.SaveDataSet(dataSet1);
 
@@ -107,8 +93,6 @@ namespace ClusterMongoTest
             // Arrange
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
-
-            repo.DeleteAllDataSets();
 
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
@@ -136,8 +120,6 @@ namespace ClusterMongoTest
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
-            repo.DeleteAllDataSets();
-
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
             dataSet1.CreationTime = DateTime.MaxValue;
@@ -162,8 +144,6 @@ namespace ClusterMongoTest
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
 
-            repo.DeleteAllDataSets();
-
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
 
@@ -184,8 +164,6 @@ namespace ClusterMongoTest
             // Arrange
             IKernel kernel = new StandardKernel(new NinjectTestDatabaseContextModule());
             DBRepository repo = kernel.Get<DBRepository>();
-
-            repo.DeleteAllDataSets();
 
             var dataSet1 = new DataSet();
             dataSet1.Name = "DataSet1";
