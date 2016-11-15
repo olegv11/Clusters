@@ -22,11 +22,15 @@ namespace ClusterDomainTest
                 .ShouldThrow<ArgumentOutOfRangeException>("0.5 меньше 1");
             createNorm.Invoking(x => x.Invoke(0))
                 .ShouldThrow<ArgumentOutOfRangeException>("0 меньше 1");
+            createNorm.Invoking(x => x.Invoke(0.99999))
+                .ShouldThrow<ArgumentOutOfRangeException>("0.99999 меньше 1");
 
             createNorm.Invoking(x => x.Invoke(1))
                 .ShouldNotThrow<ArgumentOutOfRangeException>("1 больше или равно 1");
             createNorm.Invoking(x => x.Invoke(500))
                 .ShouldNotThrow<ArgumentOutOfRangeException>("500 больше или равно 1");
+            createNorm.Invoking(x => x.Invoke(1.00001))
+                .ShouldNotThrow<ArgumentOutOfRangeException>("1.00001 больше или равно 1");
         }
 
         public static IEnumerable<DataPoint[]> GetPointsWithNull => new[]

@@ -122,6 +122,7 @@ namespace ClusterDomainTest
 
         [Theory]
         [InlineData(-2.3)]
+        [InlineData(-0.0001)]
         [InlineData(double.NaN)]
         [InlineData(double.PositiveInfinity)]
         [InlineData(double.NegativeInfinity)]
@@ -152,9 +153,11 @@ namespace ClusterDomainTest
         {
             // Arrange
             Action createClasterizer = () => new DbscanClasterizer(2, 5);
+            Action createClasterizer2 = () => new DbscanClasterizer(0.0001, 2);
 
             // Assert
             createClasterizer.ShouldNotThrow<ArgumentOutOfRangeException>();
+            createClasterizer2.ShouldNotThrow<ArgumentOutOfRangeException>();
         }
 
         [Fact]
